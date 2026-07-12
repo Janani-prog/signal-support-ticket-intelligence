@@ -5,10 +5,12 @@ Docs: http://127.0.0.1:8000/docs
 """
 
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -111,3 +113,11 @@ def ask(request: Request, body: AskRequest) -> AskResponse:
         answer=result["answer"],
         sources=[AskSource(**s) for s in result["sources"]],
     )
+
+
+# Single-container deployment (HF Spaces exposes exactly one port): serve the static frontend
+# from the same FastAPI app, same origin as the API. Mounted last so it only catches requests
+# that don't match an API route above.
+_frontend_dir = Path("frontend")
+if _frontend_dir.exists():
+    app.mount("/", StaticFiles(directory=str(_frontend_dir), html=True), name="frontend")

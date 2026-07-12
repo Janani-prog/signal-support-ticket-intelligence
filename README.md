@@ -83,6 +83,20 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
+### Docker (single container, matches the deployed setup)
+
+```bash
+docker compose up --build
+```
+
+Serves both the API and frontend on `http://127.0.0.1:7860` (HF Spaces requires a single exposed
+port). The `Dockerfile` regenerates all data/model artifacts *inside the image* at build time
+(ingestion → classifier training → clustering → retrieval indexing, plus pre-warming the
+summarization model) rather than copying them from the host — they're gitignored, so this proves
+the pipeline is genuinely reproducible from source. Runs as a non-root user (uid 1000, required
+by HF Spaces). torch is installed from the CPU-only wheel index explicitly — otherwise pip pulls
+the default CUDA build, contradicting the project's stated no-GPU-dependency constraint.
+
 ### Frontend
 
 ```bash

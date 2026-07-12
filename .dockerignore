@@ -1,0 +1,21 @@
+.git
+.venv
+.claude
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.ipynb_checkpoints
+
+# Regenerated inside the image by the Dockerfile's pipeline RUN steps — not copied from the
+# host, so the image build proves the pipeline is genuinely reproducible from scratch.
+data/raw
+data/processed
+models
+mlruns
+mlartifacts
+chroma_db
+
+.env
+node_modules
