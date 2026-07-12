@@ -48,7 +48,30 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-_Full run instructions (data ingestion, training, API, frontend) added as each phase lands._
+### Data
+
+```bash
+python -m src.data.ingest_banking77       # labeled: 77-intent banking support queries
+python -m src.data.ingest_twitter_support  # unlabeled: real-world customer support tweets
+```
+
+Both scripts are idempotent (safe to re-run) and write to `data/processed/` (gitignored — not
+committed; regenerate from these scripts). Sources:
+
+- **banking77** (HF Hub `banking77`, PolyAI) — ~13k customer banking queries across 77
+  fine-grained intents. Used as the labeled corpus for classification (Phase 2).
+- **Twitter Customer Support** (HF Hub
+  [`MohammadOthman/mo-customer-support-tweets-945k`](https://huggingface.co/datasets/MohammadOthman/mo-customer-support-tweets-945k))
+  — real customer-support tweets, ~945k rows. We use a fixed, seeded random sample of 8,000
+  customer-initiated messages (portfolio scale, per `TECHNICAL_ARCHITECTURE.md` §5) as the
+  unlabeled corpus for clustering/retrieval (Phases 3-4).
+
+Both are cleaned via `src/data/cleaning.py`: PII-shaped tokens (emails, phone numbers, URLs,
+@handles) are redacted, whitespace is normalized, and exact duplicates are dropped — see
+`SECURITY_AND_ACCESS.md` §1. See `notebooks/01_eda.ipynb` for class balance, text length
+distribution, and sample tickets.
+
+_Further run instructions (training, API, frontend) added as each phase lands._
 
 ---
 

@@ -64,7 +64,7 @@ That said:
 _Update this section as phases complete, so any new session picks up context immediately:_
 
 - [x] Phase 0 — Project Setup
-- [ ] Phase 1 — Data Ingestion
+- [x] Phase 1 — Data Ingestion
 - [ ] Phase 2 — Classification
 - [ ] Phase 3 — Clustering
 - [ ] Phase 4 — Retrieval + Summarization
