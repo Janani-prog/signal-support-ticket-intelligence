@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Support Intel - Ask</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#1c1c16",
+                        "secondary-container": "#e6dfd4",
+                        "primary-fixed-dim": "#a9c7ff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#002b5b",
+                        "surface-container": "#f0eded",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-secondary-fixed": "#1e1b15",
+                        "on-secondary-container": "#67625a",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#cdc5bc",
+                        "error": "#ba1a1a",
+                        "secondary": "#635e56",
+                        "on-primary-fixed-variant": "#264778",
+                        "tertiary-fixed": "#e6e2d9",
+                        "tertiary-fixed-dim": "#cac6be",
+                        "primary": "#001736",
+                        "outline": "#747780",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#e9e1d7",
+                        "inverse-on-surface": "#f3f0ef",
+                        "inverse-primary": "#a9c7ff",
+                        "on-surface": "#1c1b1b",
+                        "on-primary-container": "#7594ca",
+                        "surface-bright": "#fcf9f8",
+                        "tertiary-container": "#2d2c26",
+                        "surface-dim": "#dcd9d9",
+                        "tertiary": "#181812",
+                        "on-tertiary-container": "#96938b",
+                        "primary-fixed": "#d6e3ff",
+                        "outline-variant": "#c4c6d0",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-tint": "#405f91",
+                        "surface-container-high": "#eae7e7",
+                        "error-container": "#ffdad6",
+                        "background": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#484740",
+                        "on-secondary-fixed-variant": "#4a463f",
+                        "surface-variant": "#e5e2e1",
+                        "surface": "#fcf9f8",
+                        "on-surface-variant": "#43474f",
+                        "surface-container-low": "#f6f3f2",
+                        "inverse-surface": "#313030"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "sidebar-width": "260px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "gutter": "1px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Hanken Grotesk"],
+                        "display-lg": ["\"Source Serif 4\""],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-sm": ["\"Source Serif 4\""],
+                        "headline-md": ["\"Source Serif 4\""]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["42px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "18px", "fontWeight": "450" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #fcf9f8; color: #1c1b1b; }
+        .citation-link { color: #001736; font-weight: 600; text-decoration: none; position: relative; }
+        .citation-link::after { content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 1px; bottom: 0; left: 0; background-color: #001736; transform-origin: bottom right; transition: transform 0.25s ease-out; }
+        .citation-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+    </style>
+</head>
+<body class="font-body-sm text-body-sm antialiased h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-lowest fixed left-0 top-0 h-screen w-[260px] border-r border-outline-variant dark:border-outline flat no shadows flex flex-col h-full py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-on-background">Support Intel</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Ops Workspace</p>
+</div>
+<button class="mx-4 mb-6 bg-primary text-on-primary font-label-caps text-label-caps py-2 px-4 rounded border border-primary hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span> New Analysis
+        </button>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-150 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-150 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">category</span>
+                        Classifier
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-150 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bubble_chart</span>
+                        Clusters
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-primary dark:text-primary-fixed-dim border-r-2 border-primary dark:border-primary-fixed-dim bg-secondary-container/30 hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-150 font-label-caps text-label-caps opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">contact_support</span>
+                        Ask
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto px-4 pt-6 border-t border-outline-variant dark:border-outline">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-150 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+                        Settings
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-150 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+                        Docs
+                    </a>
+</li>
+</ul>
+<div class="mt-4 flex items-center px-4 gap-3">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, professional avatar photo of a technical analyst in a well-lit office, neutral background, sharp focus, minimal and corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH8Beagjm8QSH2s11yJmSSOAxtkwHVERkY2iUcxMv6fOlqIRAMmkO_liedsUbar-KKBFhBkoYJ6xGMkxaH1BbqYEQTyOp93dlU6BRT3qcdO0eGc7qLZfSg82ffVpoMwTVdjLKYEgzwBY-i4J6gYOQ9shBa3oQSqz2H5s0qVe7b46EBQpSyQvbLAD9dA7IHy2A8rSvWVao9DcsTzXyQykio7wA9vWPbmPtpVfyevFUWBnbjtWshhTceuV2BMI5KlNdENtwJdpsV"/>
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-on-surface">J. Doe</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant text-[9px]">Analyst</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-[260px] flex flex-col h-screen overflow-hidden bg-background">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-on-background sticky top-0 z-40 w-full border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center h-16 px-6">
+<div class="flex items-center gap-6">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-on-background">Support Operations Intelligence</span>
+<nav class="hidden md:flex gap-6 ml-4">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-label-caps text-label-caps" href="#">Workspaces</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-label-caps text-label-caps" href="#">Archives</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-label-caps text-label-caps" href="#">Team</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary border border-primary px-4 py-1.5 rounded font-label-caps text-label-caps hover:bg-on-primary-fixed-variant transition-colors scale-95 transition-transform active:scale-90">
+                    Deploy Model
+                </button>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<img alt="Analyst Avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover ml-2" data-alt="A small, professional avatar photo of a technical analyst in a well-lit office, neutral background, sharp focus, minimal and corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA40DvKfdWTm-qCqLPao6DpFfH9V7b_6Ao_p22mpUkE3BKcNXGypWuQPpZkjU4sKLR9TKa2yQcu1wAnuKaxVgQ3NvnJn3jCR2ej6hsAt0oF9QoPS-t7hNGkbhOc5Tc2BnMjdYdQMpFxTm0zoOnX3Ns8KzIIBaOfInFefjQF9qWcmps9Ul02bukAe2zVSycEgbmWr5Vd69tXoN7tT_JHthKoX44srKvnGCH0vByV86COJaWhG69bh6n1gS3S8_miWpAq8-mRLIYC"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-container-padding flex flex-col items-center">
+<!-- Search Interface -->
+<div class="w-full max-w-4xl mt-12 mb-16 flex flex-col items-center">
+<h2 class="font-display-lg text-display-lg text-center mb-8 text-on-surface">What are people saying about checkout this week?</h2>
+<div class="w-full relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-full py-4 pl-6 pr-14 font-headline-sm text-headline-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm" placeholder="Ask a question about your support data..." type="text" value="What are people saying about checkout this week?"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-on-primary rounded-full hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Results Area -->
+<div class="w-full max-w-4xl flex flex-col gap-12 pb-24">
+<!-- Synthesized Answer -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-8 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="flex items-center gap-2 mb-6 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h3 class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Synthesized Answer</h3>
+</div>
+<div class="prose max-w-none font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6">
+<p class="font-headline-sm text-headline-sm text-on-surface mb-2">Customers are primarily reporting issues with the newly deployed express checkout flow, specifically concerning payment method retention.</p>
+<p>Based on 42 analyzed tickets from the past 7 days, there is a recurring theme where returning users attempt to use saved credit cards during the express checkout process, but receive an "Invalid Token" error <a class="citation-link font-data-mono text-xs ml-1 align-super text-primary" href="#citation-1">[1]</a><a class="citation-link font-data-mono text-xs ml-1 align-super text-primary" href="#citation-2">[2]</a>. This appears to be localized to the iOS mobile application, as web users have not reported similar failures in the same volume <a class="citation-link font-data-mono text-xs ml-1 align-super text-primary" href="#citation-4">[4]</a>.</p>
+<p>A secondary, albeit smaller, cluster of feedback mentions confusion regarding the application of promo codes. Users state the input field is hidden behind an accordion menu that defaults to closed, leading to abandoned carts when they cannot easily apply discounts <a class="citation-link font-data-mono text-xs ml-1 align-super text-primary" href="#citation-3">[3]</a>.</p>
+</div>
+</section>
+<!-- Citations Grid -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-on-surface-variant">format_quote</span>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Sources</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Citation Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 hover:border-primary transition-colors group cursor-pointer flex flex-col justify-between h-full" id="citation-1">
+<div>
+<div class="flex justify-between items-start mb-3 border-b border-outline-variant pb-2">
+<span class="font-data-mono text-data-mono text-primary bg-primary/10 px-2 py-0.5 rounded">[1] TKT-8921</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">iOS App</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-3">"I tried to buy the boots using my saved Visa card but it just kept spinning and then said 'Invalid Token'. I had to re-enter all my card details from scratch which is annoying on a phone."</p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant flex justify-between items-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="font-label-caps text-[10px]">View Full Ticket</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</div>
+</div>
+<!-- Citation Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 hover:border-primary transition-colors group cursor-pointer flex flex-col justify-between h-full" id="citation-2">
+<div>
+<div class="flex justify-between items-start mb-3 border-b border-outline-variant pb-2">
+<span class="font-data-mono text-data-mono text-primary bg-primary/10 px-2 py-0.5 rounded">[2] TKT-8944</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">iOS App</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-3">"Express checkout is broken. Selected my default payment method, got an error about a token. Tried 3 times. Ended up using Apple Pay instead but you should fix the regular saved cards."</p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant flex justify-between items-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="font-label-caps text-[10px]">View Full Ticket</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</div>
+</div>
+<!-- Citation Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 hover:border-primary transition-colors group cursor-pointer flex flex-col justify-between h-full" id="citation-3">
+<div>
+<div class="flex justify-between items-start mb-3 border-b border-outline-variant pb-2">
+<span class="font-data-mono text-data-mono text-primary bg-primary/10 px-2 py-0.5 rounded">[3] TKT-9012</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Web</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-3">"Where do I put the 20% off code? I am at the final review step and there is no box for it. I clicked everywhere. I'm not buying this unless I get the discount from the email."</p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant flex justify-between items-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="font-label-caps text-[10px]">View Full Ticket</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</div>
+</div>
+<!-- Citation Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 hover:border-primary transition-colors group cursor-pointer flex flex-col justify-between h-full" id="citation-4">
+<div>
+<div class="flex justify-between items-start mb-3 border-b border-outline-variant pb-2">
+<span class="font-data-mono text-data-mono text-primary bg-primary/10 px-2 py-0.5 rounded">[4] TKT-8850</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Web</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-3">"The new checkout is fast on my laptop, worked great. Just wanted to let you know it's better than the old one."</p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant flex justify-between items-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="font-label-caps text-[10px]">View Full Ticket</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>
