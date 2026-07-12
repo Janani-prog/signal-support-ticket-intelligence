@@ -17,8 +17,9 @@ MODELS_DIR = Path("models")
 
 
 class TermInterpreter:
-    def __init__(self, model_path: Path = MODELS_DIR / "baseline_tfidf_logreg.joblib"):
-        pipeline = joblib.load(model_path)
+    def __init__(self, model_path: Path = MODELS_DIR / "baseline_tfidf_logreg.joblib", pipeline=None):
+        if pipeline is None:
+            pipeline = joblib.load(model_path)
         self.vectorizer = pipeline.named_steps["tfidf"]
         self.clf = pipeline.named_steps["clf"]
         self.feature_names = np.array(self.vectorizer.get_feature_names_out())

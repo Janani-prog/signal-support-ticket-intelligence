@@ -68,7 +68,7 @@ _Update this section as phases complete, so any new session picks up context imm
 - [x] Phase 2 — Classification
 - [x] Phase 3 — Clustering
 - [x] Phase 4 — Retrieval + Summarization
-- [ ] Phase 5 — API Layer
+- [x] Phase 5 — API Layer
 - [ ] Phase 6 — Frontend Implementation
 - [ ] Phase 7 — Containerization & Deployment
 - [ ] Phase 8 — Monitoring

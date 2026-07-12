@@ -22,8 +22,8 @@ class AskPipeline:
         self.synthesizer = AnswerSynthesizer()
         self.top_k = top_k
 
-    def ask(self, question: str) -> dict:
-        sources = self.retriever.search(question, top_k=self.top_k)
+    def ask(self, question: str, top_k: int | None = None) -> dict:
+        sources = self.retriever.search(question, top_k=top_k or self.top_k)
         answer = self.synthesizer.synthesize(question, sources)
         return {
             "answer": answer,

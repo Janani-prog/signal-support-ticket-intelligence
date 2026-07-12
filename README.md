@@ -83,6 +83,19 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
+### API
+
+```bash
+uvicorn src.api.main:app --reload
+```
+
+Swagger UI at `http://127.0.0.1:8000/docs`. Endpoints (see `TECHNICAL_ARCHITECTURE.md` §2.3 for
+the full contract): `GET /health`, `POST /classify`, `GET /clusters`, `GET /clusters/{id}`,
+`POST /ask`. All models (classifier, clustering artifacts, retrieval index, summarizer) load once
+at startup. `/classify` and `/ask` are rate-limited (20/min, 10/min respectively — `slowapi`, per
+`SECURITY_AND_ACCESS.md` §3) and validate input via Pydantic (empty/oversized/malformed requests
+return 422). CORS origins configurable via `CORS_ALLOWED_ORIGINS` in `.env`.
+
 ### Data
 
 ```bash
