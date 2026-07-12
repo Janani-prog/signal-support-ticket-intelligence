@@ -20,7 +20,7 @@ umap-learn==0.5.7
 hdbscan==0.8.40
 
 # --- Retrieval + summarization (Phase 4) ---
-chromadb==1.0.21
+faiss-cpu==1.14.3
 
 # --- Experiment tracking (Phase 0+) ---
 mlflow==2.19.0

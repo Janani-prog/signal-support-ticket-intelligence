@@ -59,9 +59,21 @@ Data ingestion & cleaning (src/data/)
   run on CPU — no GPU dependency, since this must stay free and portable.
 - **Clustering:** `sentence-transformers` (`all-MiniLM-L6-v2`) → UMAP → HDBSCAN. Chosen over
   k-means because it doesn't require pre-specifying cluster count and models noise explicitly.
-- **Retrieval + summarization:** Chroma (embedded, no server to run) or FAISS for the vector
-  index; `flan-t5-base` or `bart-large-cnn` via `transformers` for summarization as the default,
-  local-only path.
+- **Retrieval + summarization:** FAISS for the vector index (an `IndexFlatIP` over
+  all-MiniLM-L6-v2 embeddings); `bart-large-cnn` via `transformers` for summarization as the
+  default, local-only path.
+
+  **Implementation update (Phase 4):** both of this section's "or" choices were tried and one
+  side of each was dropped after hitting real problems, not just preference:
+  - **Chroma was dropped for FAISS.** Chroma's Rust bindings segfaulted unpredictably on the
+    Windows dev environment, reproducible in minimal cases with no other project code involved.
+    FAISS (this doc's own named alternative) worked cleanly.
+  - **flan-t5-base was dropped for bart-large-cnn.** Prompted to synthesize a cross-ticket theme,
+    flan-t5-base failed on 15/15 hand-built test questions — it echoed its own prompt template
+    instead of generating content (verified not to be a prompt-tuning gap: several prompt variants
+    were tried, and flan-t5-large showed the same failure mode while being ~3x slower).
+    bart-large-cnn, a real summarization model rather than an instruction-follower, fixed this
+    and loads ~13x faster. Full evidence in `reports/retrieval/evaluation.md`.
 
   **Latency fallback (optional):** local CPU inference for generative summarization can be slow
   enough to make a live demo feel broken, especially on free-tier hosting (e.g. HF Spaces' free
@@ -118,8 +130,8 @@ Data ingestion & cleaning (src/data/)
 | Classification | scikit-learn, optional HF transformers | Free, CPU-friendly |
 | Embeddings | sentence-transformers | Free, local, no API key |
 | Clustering | UMAP + HDBSCAN | No k needed, handles noise |
-| Vector store | Chroma (or FAISS) | Free, embedded, no server |
-| Summarization | HF transformers (flan-t5-base / bart-large-cnn), fallback to Groq / HF Inference API if CPU latency is too high | Free either way; local by default, serverless as a documented latency escape hatch |
+| Vector store | FAISS (`IndexFlatIP`) | Free, embedded, no server; Chroma tried first but segfaulted on the Windows dev environment |
+| Summarization | HF transformers (`bart-large-cnn`), fallback to Groq / HF Inference API if CPU latency is too high | Free either way; local by default, serverless as a documented latency escape hatch. `flan-t5-base` tried first but failed to synthesize (see §2.2) |
 | Experiment tracking | MLflow (local) | Free, no signup |
 | API | FastAPI | Async, typed, fast to build |
 | Frontend | Per Stitch export | Custom, non-templated design |

@@ -1,0 +1,467 @@
+[
+  {
+    "question": "What are people saying about flight delays?",
+    "answer": "Regarding \"What are people saying about flight delays?\": Why is it that every flight I take with you to and from BWI/FLL is delayed? Not sure why I continue flying with you. Disappointed my flight has been delayed for over 4 hours.",
+    "sources": [
+      {
+        "ticket_id": "TW-004398",
+        "snippet": "been siting on the plane waiting to take off for over an hour and now you say that we are going back to be delayed 4 another hour",
+        "score": 0.7151551842689514
+      },
+      {
+        "ticket_id": "TW-002947",
+        "snippet": "Why is it that every flight I have is delayed?????????????????",
+        "score": 0.6740807294845581
+      },
+      {
+        "ticket_id": "TW-002413",
+        "snippet": "Why is it that EVERY flight I take with you to and from BWI/FLL is delayed? Not sure why I continue flying with you.",
+        "score": 0.6674191951751709
+      },
+      {
+        "ticket_id": "TW-007346",
+        "snippet": "maybe I\u2019m on edge because my flights were delayed 50x.. or maybe I\u2019m annoyed that flight attendants allow people to save seats",
+        "score": 0.6638035774230957
+      },
+      {
+        "ticket_id": "TW-006152",
+        "snippet": "Disappointed my flight has been delayed for over 4 hours and was just informed that nothing is wrong with the plane, our pilot had a higher priority flight. Already missed a meeting....it wasn\u2019t a priority...delayed",
+        "score": 0.6410250067710876
+      }
+    ]
+  },
+  {
+    "question": "Are customers having trouble with Xbox or PlayStation games?",
+    "answer": "Regarding \"Are customers having trouble with Xbox or PlayStation games?\": Xbox not delivered, waiting the whole day for them to show. No show. Seriously microsoft, ANYTHING is better than UPS. XboneX Sweden the xbox game store digitally.",
+    "sources": [
+      {
+        "ticket_id": "TW-002294",
+        "snippet": "Xbox not delivered, waiting the whole day for them to show. No show. Seriously microsoft, ANYTHING is better than UPS. XboneX Sweden",
+        "score": 0.545756459236145
+      },
+      {
+        "ticket_id": "TW-002600",
+        "snippet": "the xbox game store digitally, where else?",
+        "score": 0.5375308990478516
+      },
+      {
+        "ticket_id": "TW-002319",
+        "snippet": "Hello we have no Xbox live in the last hour in Ireland Is there an issue",
+        "score": 0.5325078964233398
+      },
+      {
+        "ticket_id": "TW-001138",
+        "snippet": "I keep having trouble with Xbox just dropping me out of live. elanation of what is going on would mean allot, TY. Xbox",
+        "score": 0.5318471789360046
+      },
+      {
+        "ticket_id": "TW-003985",
+        "snippet": "why isn\u2019t the Xbox app working b",
+        "score": 0.52214515209198
+      }
+    ]
+  },
+  {
+    "question": "What account access or password problems are customers reporting?",
+    "answer": "Regarding \"What account access or password problems are customers reporting?\": Anyone having problems with their telling them their password is incorrect and the website timing out so you can\u2019t reset password? Need to talk to someone about an account issue that isnt covered in your support docs. Please help! I am having some account problems and I do not know how to fix them.",
+    "sources": [
+      {
+        "ticket_id": "TW-002604",
+        "snippet": "Are you having any issues with accounts at the moment?",
+        "score": 0.5794942378997803
+      },
+      {
+        "ticket_id": "TW-000410",
+        "snippet": "Anyone having problems with their telling them their password is incorrect and the website timing out so you can\u2019t reset password?",
+        "score": 0.564084529876709
+      },
+      {
+        "ticket_id": "TW-007114",
+        "snippet": "Need to talk to someone about an account issue that isnt covered in your support docs. Please help!",
+        "score": 0.5542711019515991
+      },
+      {
+        "ticket_id": "TW-002989",
+        "snippet": "I am having some account problems and I do not know how to fix them and I do not know to get contact you for help HELP!",
+        "score": 0.522480845451355
+      },
+      {
+        "ticket_id": "TW-006211",
+        "snippet": "in having trouble with my accounts, Prime and login who should I write too, how does get it resolved.",
+        "score": 0.5198876857757568
+      }
+    ]
+  },
+  {
+    "question": "What complaints are there about Uber or Uber Eats drivers?",
+    "answer": "Regarding \"What complaints are there about Uber or Uber Eats drivers?\": UBER doesn't let you write a review on the website. UBER driver tonight was hammered. He was not safe atall and that is the reason I got an UBER. So they are not reliable. And don't even have a complaint section on the site.",
+    "sources": [
+      {
+        "ticket_id": "TW-006866",
+        "snippet": "how can I submit a complaint about my uber eats?",
+        "score": 0.675779402256012
+      },
+      {
+        "ticket_id": "TW-006970",
+        "snippet": "UBER doesn\u2019t let you write a review on the website. But my UBER driver tonight was hammered. He was not safe atall and that is the reason I got an UBER. So they are not reliable. And don\u2019t even have a complaint section on the website. lift",
+        "score": 0.6437318325042725
+      },
+      {
+        "ticket_id": "TW-007937",
+        "snippet": "isnt all uber drivers supposed to be safe and friendly and WORK HARD to make sure i had a good ride",
+        "score": 0.6330075263977051
+      },
+      {
+        "ticket_id": "TW-004703",
+        "snippet": "one of your drivers just made me rethink using uber again.i was over charged and thats a really bad service.",
+        "score": 0.6021057963371277
+      },
+      {
+        "ticket_id": "TW-005725",
+        "snippet": "I hate uber they are charging 25 cancellation for a driver that never showed in Mexico. uber sucks ubersucks",
+        "score": 0.5880405306816101
+      }
+    ]
+  },
+  {
+    "question": "Are packages not being delivered?",
+    "answer": "Regarding \"Are packages not being delivered?\": My packages are scheduled for delivery TODAY and according to the tracking, AMZLUS has not yet even loaded them onto a delivery vehicle. I never received a package that is displayed as delivered. Hoping to learn what happened and get it sorted out.",
+    "sources": [
+      {
+        "ticket_id": "TW-002573",
+        "snippet": "Result I get a notification saying the package was delivered. There was a pic of the package left in the street, and I live in an area where packages in the street just dissapear. When I arrived home, of course the package was not there",
+        "score": 0.7326378226280212
+      },
+      {
+        "ticket_id": "TW-001044",
+        "snippet": "my package is in transit since Oct. 3 and was supposed to arrive yesterday. hasn\u2019t been delivered. What\u2019s going on?",
+        "score": 0.7299142479896545
+      },
+      {
+        "ticket_id": "TW-001646",
+        "snippet": "I received an alert yesterday that my packages were delivered, but they have yet to arrive. What can I do to resolve this?",
+        "score": 0.7058660984039307
+      },
+      {
+        "ticket_id": "TW-003861",
+        "snippet": "I never received a package that is displayed as delivered. Hoping to learn what happened and get it sorted out. Can you help?",
+        "score": 0.6865667104721069
+      },
+      {
+        "ticket_id": "TW-007427",
+        "snippet": "My packages are scheduled for delivery TODAY and according to the tracking, AMZLUS has not yet even loaded them onto a delivery vehicle. Not happy about the ulcers Amazon is causing! EndAMZLUSNOW",
+        "score": 0.6744244694709778
+      }
+    ]
+  },
+  {
+    "question": "What issues are people having with their iPhone battery?",
+    "answer": "Regarding \"What issues are people having with their iPhone battery?\": iPhone battery now so bad, that I have to carry round a spare battery. When is this being fixed? iphone worstbattery unhappycustomer.",
+    "sources": [
+      {
+        "ticket_id": "TW-002830",
+        "snippet": ". iPhone battery now so bad, that I have to carry round a spare battery. When is this being fixed? iphone worstbattery unhappycustomer",
+        "score": 0.6703153848648071
+      },
+      {
+        "ticket_id": "TW-002584",
+        "snippet": "can we please fix the battery issue with iOS11.",
+        "score": 0.618995726108551
+      },
+      {
+        "ticket_id": "TW-001991",
+        "snippet": "iOS 11 and my battery totally sucks but costs wayyyy to much to fix",
+        "score": 0.6126527786254883
+      },
+      {
+        "ticket_id": "TW-004517",
+        "snippet": "iPhone battery sucks after the last couple updates. I hardly use my phone during the day and I\u2019m at 27. I should be at 60. apple",
+        "score": 0.6050050854682922
+      },
+      {
+        "ticket_id": "TW-003218",
+        "snippet": "Dear the new ios11 is the worst battery drainer ever, my 6s just can\u2019t handle it, half day of normal use and im on 5",
+        "score": 0.5999609231948853
+      }
+    ]
+  },
+  {
+    "question": "Is there an internet or network outage customers are reporting?",
+    "answer": "Regarding \"Is there an internet or network outage customers are reporting?\": Are there outages in the NYC area? Any ETA or Information on the internet outage? Online support was useless are there any internet outages  in upper Michigan? any status on the outage in 34786? It\u2019s been over a day of no internet internet outage in East Austin?",
+    "sources": [
+      {
+        "ticket_id": "TW-003998",
+        "snippet": "are there outages in the NYC area?",
+        "score": 0.6644871830940247
+      },
+      {
+        "ticket_id": "TW-004230",
+        "snippet": "Any ETA or Information on the internet outage? Online support was useless",
+        "score": 0.6563001871109009
+      },
+      {
+        "ticket_id": "TW-000097",
+        "snippet": "are there any internet outages in upper Michigan?",
+        "score": 0.6545602679252625
+      },
+      {
+        "ticket_id": "TW-005120",
+        "snippet": "any status on the outage in 34786? It\u2019s been over a day of no internet",
+        "score": 0.6525811553001404
+      },
+      {
+        "ticket_id": "TW-001850",
+        "snippet": "internet outage in East Austin?",
+        "score": 0.6412151455879211
+      }
+    ]
+  },
+  {
+    "question": "What credit card or payment card problems are customers having?",
+    "answer": "Regarding \"What credit card or payment card problems are customers having?\": I am having problems with my payment method. I keep getting errors despite using different cards. what is the problem? It would be nice if didn't consistently shaft every customer that doesn't cave into using their credit card.",
+    "sources": [
+      {
+        "ticket_id": "TW-003421",
+        "snippet": "I am having problems with my payment method. I keep getting errors despite using different cards. what is the problem?",
+        "score": 0.6520655155181885
+      },
+      {
+        "ticket_id": "TW-005170",
+        "snippet": "It would be nice if didn\u2019t consistently shaft every customer that doesn\u2019t cave into using their credit card.",
+        "score": 0.6278875470161438
+      },
+      {
+        "ticket_id": "TW-005527",
+        "snippet": "hi. Who helps with customer service issues?",
+        "score": 0.5534557104110718
+      },
+      {
+        "ticket_id": "TW-001250",
+        "snippet": "My card is not being accepted as a payment method but I just udes it yesterday?",
+        "score": 0.5520263314247131
+      },
+      {
+        "ticket_id": "TW-007985",
+        "snippet": "tried calling card services they just hang up unless there is a problem on your lines",
+        "score": 0.5505461096763611
+      }
+    ]
+  },
+  {
+    "question": "What are people saying about Comcast TV channels?",
+    "answer": "Regarding \"What are people saying about Comcast TV channels?\": Comcast does it again. Freaking phone REP said she cannot go any lower on the bill yet Comcast sent me a mailer that says they can?? False advertising! REP wants to say there are no DVR or tech fee promotions available. Bull!",
+    "sources": [
+      {
+        "ticket_id": "TW-002338",
+        "snippet": "Cant believe charter cut out all the good channels, now you got to pay extra to get them. Dont we pay enough now...",
+        "score": 0.627776026725769
+      },
+      {
+        "ticket_id": "TW-007765",
+        "snippet": "if you guys reply to this I will switch over to comcast!!",
+        "score": 0.6142821311950684
+      },
+      {
+        "ticket_id": "TW-001291",
+        "snippet": "changing cable providers because I am sick of having to buy tv episodes on demand of channels in subscribed to.",
+        "score": 0.6053899526596069
+      },
+      {
+        "ticket_id": "TW-005860",
+        "snippet": "And just like that, my signal freezes on during CrisisOnEarthX so, yeah, sick of Comcast.",
+        "score": 0.5946218371391296
+      },
+      {
+        "ticket_id": "TW-001731",
+        "snippet": "Comcast does it again. Freaking phone REP said she cannot go any lower on the bill yet Comcast sent me a mailer that says they can?? False advertising! REP wants to say there are no DVR or tech fee promotions available. Bull!",
+        "score": 0.5876705646514893
+      }
+    ]
+  },
+  {
+    "question": "Are trains being delayed or cancelled?",
+    "answer": "Regarding \"Are trains being delayed or cancelled?\": Trains from Manc Picadilly to Euston delayed. Have all trains stopped running? If so, when are they eected to start again?",
+    "sources": [
+      {
+        "ticket_id": "TW-000237",
+        "snippet": "DELAYED TRAINS ARE NOT",
+        "score": 0.8088613152503967
+      },
+      {
+        "ticket_id": "TW-000374",
+        "snippet": "Station staff are saying due to delays get on any train available???",
+        "score": 0.7444697618484497
+      },
+      {
+        "ticket_id": "TW-000780",
+        "snippet": "why is the train cancelled on 21st December already?",
+        "score": 0.7294119596481323
+      },
+      {
+        "ticket_id": "TW-006647",
+        "snippet": "Hi are trains from Manc Picadilly to Euston delayed?",
+        "score": 0.7043201923370361
+      },
+      {
+        "ticket_id": "TW-006117",
+        "snippet": "Have all trains stopped running? If so, when are they eected to start again?",
+        "score": 0.6953007578849792
+      }
+    ]
+  },
+  {
+    "question": "What are customers saying about Amazon Prime delivery?",
+    "answer": "Regarding \"What are customers saying about Amazon Prime delivery?\": Promised date ... today being told delivery will happen on amazing service PRIME delivery cancelled at the last moment. Pathetic Amazon the prime next day delivery stinks.",
+    "sources": [
+      {
+        "ticket_id": "TW-002243",
+        "snippet": "not only does prime delivery suck but so does customer service!",
+        "score": 0.7529629468917847
+      },
+      {
+        "ticket_id": "TW-002837",
+        "snippet": "well done amazon Prime. Promised date ... today being told delivery will happen on amazing service",
+        "score": 0.6980550289154053
+      },
+      {
+        "ticket_id": "TW-006496",
+        "snippet": "PRIME delivery cancelled at the last moment. Pathetic Amazon",
+        "score": 0.6886520981788635
+      },
+      {
+        "ticket_id": "TW-005238",
+        "snippet": "the prime next day delivery stinks. Get home from work and no amazon parcel. Thanks amazon.",
+        "score": 0.6819325685501099
+      },
+      {
+        "ticket_id": "TW-006050",
+        "snippet": "Why the hell do I even bother paying for amazon prime to get fast delivery times when all of my most recent orders get delayed.",
+        "score": 0.6818715333938599
+      }
+    ]
+  },
+  {
+    "question": "Are customers complaining about Spotify or music streaming?",
+    "answer": "Regarding \"Are customers complaining about Spotify or music streaming?\": I do not get how spotify says get three months for 99 cents yet charges you the 10 bucks instead. Annoying to be forced to register just to view a playlist an artist or friend has compiled.",
+    "sources": [
+      {
+        "ticket_id": "TW-001889",
+        "snippet": "if i pay for spotify premium then why is it when i try to listen to an album it puts some random artist in there? rip off",
+        "score": 0.6347707509994507
+      },
+      {
+        "ticket_id": "TW-002894",
+        "snippet": "why wont spotify take my money to buy premium? hello let me get it im giving you money?!!!",
+        "score": 0.5748296976089478
+      },
+      {
+        "ticket_id": "TW-000740",
+        "snippet": "I do not get how spotify says get three months for 99 cents yet charges you the 10 bucks instead",
+        "score": 0.5709133148193359
+      },
+      {
+        "ticket_id": "TW-007490",
+        "snippet": "You should make your playlists available to view for those of us who do not use spotify. Annoying to be forced to register just to view a playlist an artist or friend has compiled.",
+        "score": 0.5665388703346252
+      },
+      {
+        "ticket_id": "TW-001196",
+        "snippet": "I have been using the 30 walmart plan for the past few years, and been streaming spotify w/out using my data music freedom. this and last month it is used up all 5gb of my data, and I have spent 2 hours on the phone w/ tmo, and they have all been not helpful!",
+        "score": 0.56114661693573
+      }
+    ]
+  },
+  {
+    "question": "What Hulu or streaming show issues are being reported?",
+    "answer": "Regarding \"What Hulu or streaming show issues are being reported?\": Hulu Live on NBC channel has not worked since Sunday. Bought Hulu to watch WS and cant. What is up? on my Apple TV, Hulu is showing \u201dwe\u2019re having trouble loading your lineup\u2019",
+    "sources": [
+      {
+        "ticket_id": "TW-003346",
+        "snippet": "bought Hulu to watch WS and cant. What is up?",
+        "score": 0.6505666971206665
+      },
+      {
+        "ticket_id": "TW-003588",
+        "snippet": "on my Apple TV, Hulu is showing \u201dwe\u2019re having trouble loading your lineup\u201d. It\u2019s been like that all week.",
+        "score": 0.6469614505767822
+      },
+      {
+        "ticket_id": "TW-005082",
+        "snippet": "thanks for breaking the Hulu app on Roku. Worked fine before the update, firmware up to date. Not able to watch anything now",
+        "score": 0.5936087369918823
+      },
+      {
+        "ticket_id": "TW-006560",
+        "snippet": "hey hulu! why does not hulu want to work. it does not even want to load on my screen.",
+        "score": 0.5927233099937439
+      },
+      {
+        "ticket_id": "TW-004833",
+        "snippet": "still getting a Teal8 error with Hulu Live on NBC channel. Everything else works fine. NBC has not worked since Sunday. Any ETA on a fix?",
+        "score": 0.5794352293014526
+      }
+    ]
+  },
+  {
+    "question": "Are customers unhappy with in-store stock availability?",
+    "answer": "Regarding \"Are customers unhappy with in-store stock availability?\": I feel deliberately excluded. Now I know why Customers are not happy and the Shares are going down. They have no idea what customer service is. what a waste to offer O2 Priority Moments at They make sure there is never any stock to fulfill the offer. Miraculously, the shelves are fully stocked once the offer is ended! Rubbish that is very disappointing.",
+    "sources": [
+      {
+        "ticket_id": "TW-004115",
+        "snippet": "So you are definitely no longer stocking this item then?",
+        "score": 0.5532804727554321
+      },
+      {
+        "ticket_id": "TW-003243",
+        "snippet": "I have been to 2 of your larger stores lately and neither stocked Attitude, Gay Times, Diva etc but stocked GQ and Cosmo etc why not? I feel deliberately excluded.",
+        "score": 0.5472877025604248
+      },
+      {
+        "ticket_id": "TW-000336",
+        "snippet": "Now I know why Customers are not happy and the Shares are going down. They have no idea what customer service is.",
+        "score": 0.5155115723609924
+      },
+      {
+        "ticket_id": "TW-005694",
+        "snippet": "what a waste to offer O2 Priority Moments at They make sure there is never any stock to fulfill the offer. Miraculously, the shelves are fully stocked once the offer is ended! Rubbish.",
+        "score": 0.5125426054000854
+      },
+      {
+        "ticket_id": "TW-003786",
+        "snippet": "that is very disappointing. I have had it on stock alert since Friday, there is no point items being on sale if they cannot be purchased",
+        "score": 0.4862259030342102
+      }
+    ]
+  },
+  {
+    "question": "What Wells Fargo or bank account issues are customers reporting?",
+    "answer": "Regarding \"What Wells Fargo or bank account issues are customers reporting?\": Wells Fargo has horrible customer service. They put a hold on my card, verified my transactions twice. They said my card is good but now I have to wait to talk to the fraud dept...WellsFargo Theres nothing wrong. It dosent work.",
+    "sources": [
+      {
+        "ticket_id": "TW-006675",
+        "snippet": "Best bank to have? I have had serious issues with Wells Fargo",
+        "score": 0.6501572132110596
+      },
+      {
+        "ticket_id": "TW-004972",
+        "snippet": "Thank you to the many people who reached out to me regarding my Wells Fargo problems. I am now in the hands of a...",
+        "score": 0.6296887397766113
+      },
+      {
+        "ticket_id": "TW-001013",
+        "snippet": "Question about those commercials about their fraud protection program. Do they notify you if someone at Wells Fargo opens up multiple bank accounts in your name.",
+        "score": 0.6020100116729736
+      },
+      {
+        "ticket_id": "TW-007031",
+        "snippet": "Wells Fargo has horrible customer service. They put a hold on my card, verified my transactions twice. They said my card is good but now I have to wait to talk to the fraud dept...WellsFargo",
+        "score": 0.5784405469894409
+      },
+      {
+        "ticket_id": "TW-005492",
+        "snippet": "Theres nothing wrong. It dosent work Wells Fargo customer service.",
+        "score": 0.5683342218399048
+      }
+    ]
+  }
+]
