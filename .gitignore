@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+*.env.local
+
+# Data (regenerated via ingestion scripts, see src/data/)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Model artifacts (regenerated via training scripts, see src/*)
+models/*
+!models/.gitkeep
+
+# Experiment tracking
+mlruns/
+mlartifacts/
+
+# Vector store
+chroma_db/
+
+# Monitoring reports (generated artifacts; keep example reports we explicitly commit)
+monitoring/reports/*.html
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude Code local session state
+.claude/
+
+# Node (frontend, if applicable)
+node_modules/
+dist/
+build/
