@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>Overview Dashboard - Signal</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="shared/tailwind-config.js"></script>
+<link href="shared/styles.css" rel="stylesheet" />
+<style>.material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; }</style>
+</head>
+<body class="font-body-sm text-body-sm antialiased min-h-screen flex">
+<nav class="bg-surface-container-low fixed left-0 top-0 h-screen w-[260px] border-r border-outline-variant flex flex-col py-6 z-50" id="app-nav"></nav>
+
+<div class="flex-1 ml-[260px] flex flex-col min-h-screen">
+<header class="bg-background sticky top-0 z-40 w-full border-b border-outline-variant flex justify-between items-center h-16 px-6" id="app-topbar"></header>
+
+<main class="flex-1 p-6 lg:p-8 max-w-[1600px] mx-auto w-full">
+<header class="mb-8">
+<h2 class="font-display-lg text-display-lg text-primary tracking-tight">System Overview</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-2 uppercase tracking-wide" id="last-updated">Loading live data from the API&hellip;</p>
+</header>
+
+<section class="grid grid-cols-1 md:grid-cols-4 gap-0 hairline-border mb-8 bg-surface-container-lowest" id="metrics-grid">
+</section>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 space-y-6">
+<div class="hairline-border bg-surface-container-lowest flex flex-col">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps uppercase text-on-surface tracking-wider">Category Volume (banking77 training set)</h3>
+</div>
+<div class="p-4" id="category-chart"></div>
+</div>
+
+<div class="hairline-border bg-surface-container-lowest">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-label-caps text-label-caps uppercase text-on-surface tracking-wider">Category Breakdown</h3>
+</div>
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-low/50 font-label-caps text-label-caps uppercase text-on-surface-variant">
+<th class="p-3 font-semibold w-1/2 border-r border-outline-variant">Category Name</th>
+<th class="p-3 font-semibold border-r border-outline-variant">Volume Indicator</th>
+<th class="p-3 font-semibold w-24 text-right">Count</th>
+<th class="p-3 font-semibold w-24 text-right">% of Total</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono text-on-surface" id="category-table-body"></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div class="space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-error">warning</span>
+Flagged Emerging Clusters
+</h3>
+</div>
+<p class="font-data-mono text-[11px] text-on-surface-variant/80 -mt-4">Top clusters by size — the Twitter dataset has no timestamps, so this is ranked by volume, not recency.</p>
+<div class="space-y-4" id="flagged-clusters"></div>
+<a href="clusters.html" class="w-full hairline-border py-3 font-label-caps text-label-caps uppercase text-on-surface-variant hover:bg-surface-container-lowest hover:text-primary transition-colors flex justify-center items-center gap-2">
+View All Clusters
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script src="shared/api.js"></script>
+<script src="shared/nav.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

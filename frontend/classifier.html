@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>Ticket Classifier - Signal</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="shared/tailwind-config.js"></script>
+<link href="shared/styles.css" rel="stylesheet" />
+<style>.material-symbols-outlined { font-family: 'Material Symbols Outlined'; }</style>
+</head>
+<body class="font-body-sm text-body-sm antialiased min-h-screen flex">
+<nav class="bg-surface-container-low fixed left-0 top-0 h-screen w-[260px] border-r border-outline-variant flex flex-col py-6 z-50" id="app-nav"></nav>
+
+<div class="flex-1 ml-[260px] flex flex-col min-h-screen">
+<header class="bg-background sticky top-0 z-40 w-full border-b border-outline-variant flex justify-between items-center h-16 px-6" id="app-topbar"></header>
+
+<main class="ml-0 min-h-[calc(100vh-64px)] bg-surface p-6">
+<div class="mb-6">
+<h2 class="font-headline-md text-headline-md text-on-background mb-1">Ticket Classifier</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant">TF-IDF + Logistic Regression, deployed for exact term-level interpretability (see reports/classification/evaluation.md)</p>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-[1.2fr_1fr] bg-outline-variant gap-gutter border border-outline-variant">
+<!-- LEFT: Input -->
+<div class="bg-background flex flex-col h-full">
+<div class="px-4 py-3 bg-surface-container-low border-b border-outline-variant flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface uppercase">Source Input</span>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<textarea id="ticket-input" class="w-full min-h-[220px] resize-none border border-outline-variant bg-surface-container-lowest p-4 font-data-mono text-data-mono text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary leading-relaxed" placeholder="Paste a customer ticket here...
+
+e.g., 'Hello, I was double charged for my subscription last month and I need a refund immediately.'"></textarea>
+<div class="flex justify-between items-center">
+<span id="classify-error" class="font-body-sm text-body-sm text-error"></span>
+<button id="run-analysis" class="px-6 py-2 bg-primary text-on-primary font-label-caps text-label-caps border border-primary hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">model_training</span>
+Run Analysis
+</button>
+</div>
+</div>
+<div class="border-t border-outline-variant">
+<div class="px-4 py-2 bg-surface-container-low border-b border-outline-variant">
+<span class="font-label-caps text-label-caps text-on-surface uppercase">Sample Tickets (banking77 test set)</span>
+</div>
+<ul class="flex flex-col divide-y divide-outline-variant" id="sample-tickets"></ul>
+</div>
+</div>
+
+<!-- RIGHT: Output -->
+<div class="bg-surface-container-lowest flex flex-col h-full relative">
+<div class="px-4 py-3 bg-surface-container-low border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">analytics</span>
+<span class="font-label-caps text-label-caps text-on-surface uppercase">Prediction Output</span>
+</div>
+<div class="p-8 flex flex-col gap-8 flex-1" id="output-panel">
+<p class="font-data-mono text-data-mono text-on-surface-variant">Run an analysis to see results.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<script src="shared/api.js"></script>
+<script src="shared/nav.js"></script>
+<script src="classifier.js"></script>
+</body>
+</html>

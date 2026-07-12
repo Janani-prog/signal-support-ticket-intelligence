@@ -6,12 +6,14 @@ import json
 from pathlib import Path
 
 import joblib
+import pandas as pd
 
 from src.classification.interpretability import TermInterpreter
 from src.retrieval.ask import AskPipeline
 
 MODELS_DIR = Path("models")
 DATA_DIR = Path("data/processed")
+REPORTS_DIR = Path("reports")
 
 
 class ModelStore:
@@ -42,6 +44,45 @@ class ModelStore:
         # Retrieval/summarization models are the heaviest to load (bart-large-cnn, MiniLM) — load
         # once here rather than per-request.
         self.ask_pipeline = AskPipeline(top_k=5)
+
+        self.stats = self._compute_stats()
+
+    def _compute_stats(self) -> dict:
+        """Real aggregate numbers for the dashboard, computed from artifacts already on disk —
+        no fabricated metrics (no resolution-rate/sentiment/time-series fields exist in either
+        source dataset, so those Stitch-mockup tiles are intentionally not reproduced here; see
+        README's Phase 6 notes).
+        """
+        banking_train = pd.read_csv(DATA_DIR / "banking77_train.csv")
+        banking_test = pd.read_csv(DATA_DIR / "banking77_test.csv")
+        twitter = pd.read_csv(DATA_DIR / "twitter_support.csv")
+
+        category_counts = banking_train["label_name"].value_counts()
+        total_banking = len(category_counts.index) and int(category_counts.sum())
+        category_breakdown = [
+            {"category": cat, "count": int(count), "pct": round(100 * count / total_banking, 1)}
+            for cat, count in category_counts.head(8).items()
+        ]
+
+        classifier_metrics = json.loads(
+            (MODELS_DIR / "baseline_tfidf_logreg_metrics.json").read_text(encoding="utf-8")
+        )
+
+        hit_rate_path = REPORTS_DIR / "retrieval" / "retrieval_hit_rate.json"
+        retrieval = json.loads(hit_rate_path.read_text(encoding="utf-8")) if hit_rate_path.exists() else None
+
+        return {
+            "total_tickets": len(banking_train) + len(banking_test) + len(twitter),
+            "banking77_tickets": len(banking_train) + len(banking_test),
+            "twitter_tickets": len(twitter),
+            "classifier_accuracy": classifier_metrics["test_accuracy"],
+            "classifier_macro_f1": classifier_metrics["test_macro_f1"],
+            "n_clusters": self.n_clusters,
+            "n_noise": self.n_noise,
+            "silhouette_score": self.silhouette_score,
+            "retrieval_hit_rate": retrieval["hit_rate"] if retrieval else None,
+            "category_breakdown": category_breakdown,
+        }
 
     def classify(self, text: str) -> tuple[str, float, list[dict]]:
         proba = self.classifier_pipeline.predict_proba([text])[0]

@@ -83,6 +83,31 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
+### Frontend
+
+```bash
+cd frontend && python -m http.server 5500
+```
+
+Then open `http://127.0.0.1:5500/dashboard.html` (API must be running on `http://127.0.0.1:8000` —
+override via `window.SIGNAL_API_BASE` in each page if needed). Plain HTML/CSS/JS, no build step —
+the same stack the Stitch export itself uses (Tailwind CDN + vanilla JS), per
+TECHNICAL_ARCHITECTURE.md §2.4's "whichever stack the export produces" guidance. Four screens:
+`dashboard.html`, `classifier.html`, `clusters.html`, `ask.html`, sharing `shared/api.js` (API
+client), `shared/nav.js` (sidebar/topbar), and `shared/tailwind-config.js` (design tokens
+extracted from `design/stitch-export/archive_intelligence/DESIGN.md`). Verified in a real browser
+(Playwright) against the live API — all four screens render, the golden path on each works
+(classify a ticket, click a cluster bubble, ask a question), no console errors.
+
+**Honest simplifications vs. the Stitch mockup** (flagged since the mockup numbers looked
+plausible but aren't backed by real data): the mockup's Resolution Rate, Avg Sentiment, 30-day
+trend deltas, and per-cluster Trend/MTTR tiles have no corresponding field in either source
+dataset (no timestamps, no resolution status, no sentiment scores were computed). Rather than
+fabricate those numbers, the dashboard shows real computed metrics instead (classifier accuracy,
+retrieval hit rate, cluster count/silhouette, category volume) and the "Flagged Emerging
+Clusters" panel is explicitly labeled as ranked by volume, not recency. Added one endpoint beyond
+TECHNICAL_ARCHITECTURE.md §2.3's original draft contract, `GET /stats`, to serve these.
+
 ### API
 
 ```bash

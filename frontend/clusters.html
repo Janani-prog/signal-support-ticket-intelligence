@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>Cluster Explorer - Signal</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="shared/tailwind-config.js"></script>
+<link href="shared/styles.css" rel="stylesheet" />
+<style>
+  .material-symbols-outlined { font-family: 'Material Symbols Outlined'; }
+  .cluster-dot { cursor: pointer; transition: opacity 0.15s; }
+  .cluster-dot:hover { opacity: 0.85; }
+</style>
+</head>
+<body class="font-body-sm text-body-sm antialiased min-h-screen flex">
+<nav class="bg-surface-container-low fixed left-0 top-0 h-screen w-[260px] border-r border-outline-variant flex flex-col py-6 z-50" id="app-nav"></nav>
+
+<div class="flex-1 ml-[260px] flex flex-col min-h-screen">
+<header class="bg-background sticky top-0 z-40 w-full border-b border-outline-variant flex justify-between items-center h-16 px-6" id="app-topbar"></header>
+
+<main class="flex flex-1 min-h-[calc(100vh-64px)]">
+<div class="flex-1 relative bg-surface grid-pattern">
+<div class="absolute top-4 left-4 z-10 flex items-center gap-2">
+<div class="hairline-border bg-surface-container-lowest px-3 py-2 font-data-mono text-data-mono text-on-surface flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span id="cluster-count-label">Loading clusters&hellip;</span>
+</div>
+</div>
+<svg id="cluster-svg" class="w-full h-full" style="min-height: calc(100vh - 64px);"></svg>
+</div>
+
+<div class="w-[420px] border-l border-outline-variant bg-surface-container-lowest flex flex-col" id="inspector">
+<div class="px-4 py-3 bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface uppercase">Cluster Inspector</span>
+</div>
+<div class="p-6 flex-1 overflow-y-auto" id="inspector-body">
+<p class="font-data-mono text-data-mono text-on-surface-variant">Select a cluster bubble to inspect it.</p>
+</div>
+</div>
+</main>
+</div>
+
+<script src="shared/api.js"></script>
+<script src="shared/nav.js"></script>
+<script src="clusters.js"></script>
+</body>
+</html>

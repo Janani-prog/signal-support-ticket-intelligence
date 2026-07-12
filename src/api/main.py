@@ -23,6 +23,7 @@ from src.api.schemas import (
     ClusterDetailResponse,
     ClusterListResponse,
     HealthResponse,
+    StatsResponse,
     TermContribution,
 )
 
@@ -73,6 +74,13 @@ def classify(request: Request, body: ClassifyRequest) -> ClassifyResponse:
         confidence=confidence,
         top_terms=[TermContribution(**t) for t in top_terms],
     )
+
+
+@app.get("/stats", response_model=StatsResponse)
+def stats() -> StatsResponse:
+    """Additive endpoint (not in TECHNICAL_ARCHITECTURE.md §2.3's original draft contract) for
+    the Overview Dashboard — real aggregate numbers computed from Phase 1-4 artifacts."""
+    return StatsResponse(**store().stats)
 
 
 @app.get("/clusters", response_model=ClusterListResponse)

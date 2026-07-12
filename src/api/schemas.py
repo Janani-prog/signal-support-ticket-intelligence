@@ -63,3 +63,22 @@ class AskResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     models_loaded: bool
+
+
+class CategoryCount(BaseModel):
+    category: str
+    count: int
+    pct: float
+
+
+class StatsResponse(BaseModel):
+    total_tickets: int
+    banking77_tickets: int
+    twitter_tickets: int
+    classifier_accuracy: float
+    classifier_macro_f1: float
+    n_clusters: int
+    n_noise: int
+    silhouette_score: float | None
+    retrieval_hit_rate: float | None
+    category_breakdown: list[CategoryCount]

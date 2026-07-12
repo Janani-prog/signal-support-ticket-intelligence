@@ -100,15 +100,20 @@ Data ingestion & cleaning (src/data/)
   - `GET /clusters/{id}` — → cluster detail + sample tickets
   - `POST /ask` — body: `{ "question": string }` → `{ answer, sources: [{ticket_id, snippet}] }`
   - `GET /health` — liveness check
+  - `GET /stats` — **added in Phase 6**, not in the original draft contract — aggregate numbers
+    (total tickets, classifier accuracy, cluster count/silhouette, retrieval hit rate, category
+    breakdown) for the Overview Dashboard. Additive only; doesn't change any endpoint above.
 - API is stateless; all models loaded at startup from `models/` artifacts.
 
 ### 2.4 Frontend Layer
 - **Source of truth for visual design:** the Stitch export provided separately
   (`/design/stitch-export/`). Claude Code should implement against that design's structure,
   screens, and visual language rather than inventing new UI patterns.
-- **Implementation:** whichever stack the Stitch export is most naturally translated into
-  (likely React + Tailwind, or plain HTML/CSS/JS) — Claude Code should choose based on what the
-  export produces, and note the choice in the repo README.
+- **Implementation (decided in Phase 6): plain HTML/CSS/JS, no build step** — Tailwind via CDN
+  plus vanilla JS `fetch()` calls to the API. This is literally the stack the Stitch export
+  itself ships as (`code.html` per screen, Tailwind CDN script tag, no framework), so it's the
+  most direct translation with zero build tooling, consistent with the project's $0/simple-choices
+  ethos. React was considered but adds a build step for no functional benefit at this scale.
 - Frontend calls the FastAPI backend directly (same-origin during local dev; configure CORS for
   deployed environment — see Security doc).
 
