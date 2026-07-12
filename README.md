@@ -1,26 +1,14 @@
 # Signal — Support Ticket Intelligence Platform
 
-### [**🚀 LAUNCH LIVE DEMO →**](https://signal-mmuf.onrender.com/dashboard.html)
-
-[![Live Demo](https://img.shields.io/badge/LIVE%20DEMO-signal--mmuf.onrender.com-success?style=for-the-badge&logo=render&logoColor=white)](https://signal-mmuf.onrender.com/dashboard.html)
+### [Live Demo →](https://signal-mmuf.onrender.com/dashboard.html)
 
 **[Screenshots ↓](#screenshots)** &nbsp;|&nbsp;
 **[Architecture ↓](#architecture)** &nbsp;|&nbsp;
 **[Results ↓](#results)** &nbsp;|&nbsp;
 **[Technical Challenges ↓](#technical-challenges-overcome)**
 
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
-![Evidently AI](https://img.shields.io/badge/Evidently%20AI-drift%20monitoring-6C3EF4)
-![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
-![Render](https://img.shields.io/badge/Deployed-Render-46E3B7?logo=render&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-
-> Free-tier hosting note: the live demo spins down after ~15min idle — the first request after
-> that is a slow cold start while the container restarts and models reload.
+Note: the live demo is hosted on a free tier and spins down after ~15min idle — the first
+request after that is a slow cold start while the container restarts and models reload.
 
 ---
 
@@ -59,7 +47,7 @@ deployed, and monitored for drift — built end-to-end on a strict $0 budget.
 - **Zero unit tests, by design, not by accident** — verification happened by exercising a real
   running system at every stage (live API calls, live browser screenshots, a real 512MB Docker
   memory cap reproduced locally before touching production). That approach is what actually
-  caught every bug below; see [Honest Scope Note](#honest-scope-note).
+  caught every bug documented in [Technical Challenges Overcome](#technical-challenges-overcome).
 
 ---
 
@@ -312,23 +300,6 @@ full plan.
 | [`SECURITY_AND_ACCESS.md`](SECURITY_AND_ACCESS.md) | Data handling, secrets management, threat model |
 | [`FEATURES_TICKETS.md`](FEATURES_TICKETS.md) | Phased execution plan |
 | [`MONITORING.md`](MONITORING.md) | Retraining triggers, cadence, MLOps automation |
-
----
-
-## Honest Scope Note
-
-This is a portfolio project, not a production system: designed for demo-scale data (thousands,
-not millions, of tickets) and single-user concurrency. No real customer data is used — all data
-is public or synthetic.
-
-**No automated test suite** — verification happened a different way throughout: every phase's
-acceptance criteria was checked against a real running instance before moving on (actual model
-metrics, actual API responses, actual browser screenshots against both local and live
-deployments, actual `docker run --memory=512m` reproduction of the production memory constraint
-before diagnosing the OOM fix, actually triggering the monitoring workflow end-to-end rather than
-trusting it unverified). That approach caught every real bug documented above — a narrow unit-test
-suite likely wouldn't have caught most of them. A production version of this system would still
-want regression tests around the API contract and data pipeline.
 
 ---
 
