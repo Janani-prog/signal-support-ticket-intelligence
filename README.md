@@ -60,11 +60,14 @@ business-cost writeup (which error type is optimized against and why) are in
 
 - **Retrieval hit rate: 100%** (15/15 hand-built questions had a relevant ticket in the top-5),
   **mean recall@5: 78.7%** — FAISS + all-MiniLM-L6-v2 over the Twitter ticket corpus.
-- **Summarization: bart-large-cnn, not flan-t5-base** (the doc's first-listed default). Detailed
-  side-by-side in
-  [`reports/retrieval/evaluation.md`](reports/retrieval/evaluation.md): flan-t5-base failed on
-  15/15 test questions, echoing its own prompt template instead of synthesizing content; switching
-  to bart-large-cnn (a real summarization model) fixed this and is also ~13x faster to load.
+- **Summarization: extractive (TF-IDF + MMR sentence selection), not a neural model.** Three
+  models tried, in order: `flan-t5-base` failed on 15/15 test questions (echoed its own prompt
+  template); `bart-large-cnn` fixed that and scored well (3.7/5 usefulness) — but its ~1.6GB
+  memory footprint OOM'd on Render's free-tier 512MB RAM cap during Phase 7 deployment, and no
+  realistic smaller neural model closes that gap. Switched to a scikit-learn-only extractive
+  approach: same 3.7/5 mean usefulness, zero hallucination risk (every word traces to a real
+  ticket), a few KB of memory instead of 1.6GB. Full history in
+  [`reports/retrieval/evaluation.md`](reports/retrieval/evaluation.md).
 - **Vector store: FAISS, not Chroma.** Chroma's Rust bindings segfaulted unpredictably on this
   Windows dev environment, reproducible even in minimal cases outside this codebase. Switched to
   FAISS — TECHNICAL_ARCHITECTURE.md §2.2's own named alternative.

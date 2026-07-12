@@ -35,19 +35,26 @@ COPY --chown=user . .
 # here — train_transformer.py / evaluate.py / eval_retrieval.py etc. are dev-time evaluation
 # scripts whose results are already committed as static reports under reports/.
 #
-# The summarization model is also warmed here (not just at first request) so container startup
-# loads it from the local image layer instead of downloading ~1.6GB over the network on every
-# cold start — directly addresses the CPU-latency concern TECHNICAL_ARCHITECTURE.md §2.2 flags
-# for free-tier hosting.
+# No summarization-model warmup step here (there was one, for bart-large-cnn) — Phase 7 switched
+# summarization to a scikit-learn-only extractive approach (see src/retrieval/summarize.py) after
+# bart-large-cnn's ~1.6GB memory footprint OOM'd on Render's 512MB free tier. Nothing to warm up.
 RUN python -m src.data.ingest_banking77 \
     && python -m src.data.ingest_twitter_support \
     && python -m src.classification.train_baseline \
     && python -m src.clustering.cluster \
-    && python -m src.retrieval.build_index \
-    && python -c "from transformers import pipeline; pipeline('summarization', model='facebook/bart-large-cnn')"
+    && python -m src.retrieval.build_index
 
 EXPOSE 7860
-ENV PORT=7860
+ENV PORT=7860 \
+    OMP_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    TOKENIZERS_PARALLELISM=false \
+    MALLOC_ARENA_MAX=2
+# Free-tier memory is the binding constraint (Render's 512MB cap), not CPU throughput — limiting
+# BLAS/OpenMP thread pools and glibc malloc arenas (a well-known technique for multi-threaded
+# Python services in containers) trades a little single-request latency for materially lower RSS,
+# since each thread/arena otherwise gets its own allocation buffers.
 
 # Shell form (not exec form) so $PORT is expanded at container start.
 CMD python -m uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT}

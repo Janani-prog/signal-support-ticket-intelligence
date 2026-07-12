@@ -25,8 +25,8 @@ Data ingestion & cleaning (src/data/)
         │
         └──────────────► Retrieval index (src/retrieval/)
                              - sentence-transformers embeddings
-                             - Chroma (or FAISS) vector store
-                             - local summarization model (flan-t5-base / bart-large-cnn)
+                             - FAISS vector store
+                             - extractive TF-IDF+MMR summarization
                              │
                              ▼
                     FastAPI service (src/api/)
@@ -60,20 +60,27 @@ Data ingestion & cleaning (src/data/)
 - **Clustering:** `sentence-transformers` (`all-MiniLM-L6-v2`) → UMAP → HDBSCAN. Chosen over
   k-means because it doesn't require pre-specifying cluster count and models noise explicitly.
 - **Retrieval + summarization:** FAISS for the vector index (an `IndexFlatIP` over
-  all-MiniLM-L6-v2 embeddings); `bart-large-cnn` via `transformers` for summarization as the
-  default, local-only path.
+  all-MiniLM-L6-v2 embeddings); extractive TF-IDF + MMR sentence selection (scikit-learn only,
+  no neural model) for summarization.
 
-  **Implementation update (Phase 4):** both of this section's "or" choices were tried and one
-  side of each was dropped after hitting real problems, not just preference:
+  **Implementation update (Phase 4 + Phase 7):** every "or" choice in this section's original
+  draft was tried and dropped after hitting a real problem, not just preference:
   - **Chroma was dropped for FAISS.** Chroma's Rust bindings segfaulted unpredictably on the
     Windows dev environment, reproducible in minimal cases with no other project code involved.
     FAISS (this doc's own named alternative) worked cleanly.
-  - **flan-t5-base was dropped for bart-large-cnn.** Prompted to synthesize a cross-ticket theme,
-    flan-t5-base failed on 15/15 hand-built test questions — it echoed its own prompt template
-    instead of generating content (verified not to be a prompt-tuning gap: several prompt variants
-    were tried, and flan-t5-large showed the same failure mode while being ~3x slower).
-    bart-large-cnn, a real summarization model rather than an instruction-follower, fixed this
-    and loads ~13x faster. Full evidence in `reports/retrieval/evaluation.md`.
+  - **flan-t5-base was dropped for bart-large-cnn (Phase 4).** Prompted to synthesize a
+    cross-ticket theme, flan-t5-base failed on 15/15 hand-built test questions — it echoed its
+    own prompt template instead of generating content (verified not to be a prompt-tuning gap:
+    several prompt variants were tried, and flan-t5-large showed the same failure mode while
+    being ~3x slower). bart-large-cnn, a real summarization model rather than an
+    instruction-follower, fixed this and scored 3.7/5 mean usefulness.
+  - **bart-large-cnn was then dropped for an extractive TF-IDF+MMR approach (Phase 7).**
+    Deploying to Render's free tier (512MB RAM cap) hit an out-of-memory crash — bart-large-cnn's
+    weights alone are ~1.6GB, over 3x the entire container's budget by itself. No realistic
+    smaller neural model closes that gap (even a distilled ~230M-param variant still needs
+    ~900MB+ loaded). The extractive replacement scored the same 3.7/5 mean usefulness with zero
+    hallucination risk and a few KB of memory. Full evidence and reasoning in
+    `reports/retrieval/evaluation.md`.
 
   **Latency fallback (optional):** local CPU inference for generative summarization can be slow
   enough to make a live demo feel broken, especially on free-tier hosting (e.g. HF Spaces' free
@@ -136,13 +143,13 @@ Data ingestion & cleaning (src/data/)
 | Embeddings | sentence-transformers | Free, local, no API key |
 | Clustering | UMAP + HDBSCAN | No k needed, handles noise |
 | Vector store | FAISS (`IndexFlatIP`) | Free, embedded, no server; Chroma tried first but segfaulted on the Windows dev environment |
-| Summarization | HF transformers (`bart-large-cnn`), fallback to Groq / HF Inference API if CPU latency is too high | Free either way; local by default, serverless as a documented latency escape hatch. `flan-t5-base` tried first but failed to synthesize (see §2.2) |
+| Summarization | Extractive TF-IDF + MMR (scikit-learn) | Free, ~0 RAM; `flan-t5-base` and `bart-large-cnn` both tried and dropped (see §2.2) |
 | Experiment tracking | MLflow (local) | Free, no signup |
 | API | FastAPI | Async, typed, fast to build |
 | Frontend | Per Stitch export | Custom, non-templated design |
 | Monitoring | Evidently AI | Free, open-source, purpose-built for drift |
 | Containerization | Docker | Portable, signals production awareness |
-| Hosting | Streamlit Community Cloud or Hugging Face Spaces | Free tiers |
+| Hosting | Render (free web-service tier) | HF Spaces requires PRO for Docker SDK now — see §4 |
 
 ---
 

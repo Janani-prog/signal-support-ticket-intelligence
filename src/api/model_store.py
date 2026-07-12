@@ -2,14 +2,21 @@
 are loaded into memory once (TECHNICAL_ARCHITECTURE.md §2.3).
 """
 
+import gc
 import json
 from pathlib import Path
 
 import joblib
 import pandas as pd
+import torch
 
 from src.classification.interpretability import TermInterpreter
 from src.retrieval.ask import AskPipeline
+
+# Free-tier memory (Render's 512MB cap) is the binding constraint, not CPU throughput — a single
+# torch thread avoids each worker thread allocating its own buffers. See also the Dockerfile's
+# OMP_NUM_THREADS/MALLOC_ARENA_MAX env vars for the same reasoning applied at the process level.
+torch.set_num_threads(1)
 
 MODELS_DIR = Path("models")
 DATA_DIR = Path("data/processed")
@@ -41,11 +48,14 @@ class ModelStore:
         self.clusters_by_id = {c["cluster_id"]: c for c in clusters_data["clusters"]}
         self.ticket_text_by_id = {t["ticket_id"]: t["ticket_text"] for t in clusters_data["tickets"]}
 
-        # Retrieval/summarization models are the heaviest to load (bart-large-cnn, MiniLM) — load
-        # once here rather than per-request.
+        # Retrieval's embedding model (all-MiniLM-L6-v2) is the heaviest thing loaded here —
+        # load once at startup rather than per-request. Summarization is extractive
+        # (scikit-learn only, no neural model — see src/retrieval/summarize.py) specifically to
+        # stay within Render's free-tier 512MB RAM cap.
         self.ask_pipeline = AskPipeline(top_k=5)
 
         self.stats = self._compute_stats()
+        gc.collect()  # stats computation loads 3 CSVs into pandas; release that memory promptly
 
     def _compute_stats(self) -> dict:
         """Real aggregate numbers for the dashboard, computed from artifacts already on disk —
