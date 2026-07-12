@@ -1,7 +1,7 @@
 # Security & Access Document
 ## Signal — Support Ticket Intelligence Platform
 
-**Status:** Draft v1
+**Status:** Shipped — v1.0
 **Scope note:** This is a free, portfolio-scale deployment, not a production system handling
 real customer data. Controls below are scoped accordingly — proportionate, not theatrical.
 

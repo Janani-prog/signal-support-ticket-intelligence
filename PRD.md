@@ -1,8 +1,7 @@
 # Product Requirements Document (PRD)
 ## Signal — Support Ticket Intelligence Platform
 
-**Status:** Draft v1
-**Owner:** [Your name]
+**Status:** Shipped — v1.0
 **Last updated:** 2026-07-12
 
 ---
@@ -124,9 +123,9 @@ KPIs:
 
 - **Budget: $0.** All tools, models, and hosting must be free tier / open source.
 - All data must be public or synthetic — no real customer PII.
-- Frontend visual design must follow the Stitch export (see `/design/stitch-export/`) —
-  Claude Code should treat that as the source of truth for look and feel, and the PRD/tech docs
-  as the source of truth for functionality and data flow.
+- Frontend visual design must follow the Stitch export (see `/design/stitch-export/`) — treat
+  that as the source of truth for look and feel, and the PRD/tech docs as the source of truth for
+  functionality and data flow.
 
 ---
 

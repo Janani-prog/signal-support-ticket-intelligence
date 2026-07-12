@@ -99,12 +99,14 @@ something real" state at every stage.
 
 ---
 
-## Notes for Claude Code
+## Execution Notes
 
-- Phases should be completed **in order** — each one should leave the project in a working,
-  demoable state before starting the next.
-- Within a phase, tickets can be reordered if there's a clear dependency reason, but don't skip
-  ahead to a later phase's tickets before the current phase's acceptance criteria are met.
-- If a ticket turns out to be based on a wrong assumption (e.g. a dataset doesn't download
-  cleanly), fix the assumption and note the change — don't silently substitute something
-  materially different without flagging it.
+- Phases were completed **in order** — each one left the project in a working, demoable state
+  before the next began.
+- Within a phase, tickets were reordered when there was a clear dependency reason, but later
+  phases' tickets were never started before the current phase's acceptance criteria were met.
+- Where a ticket turned out to be based on a wrong assumption (e.g. a dataset didn't download
+  cleanly, or a chosen library was unstable on the deployment target), the assumption was fixed
+  and the change documented rather than silently substituting something materially different —
+  see `TECHNICAL_ARCHITECTURE.md` and the `reports/` write-ups for the specific deviations and
+  why each was made.

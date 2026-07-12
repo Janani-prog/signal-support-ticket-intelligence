@@ -9,8 +9,7 @@ Implementation note: TECHNICAL_ARCHITECTURE.md §2.2 names "Chroma (or FAISS)" a
 store. Chroma was tried first but its Rust bindings segfaulted unpredictably on this Windows
 environment even in minimal repro cases (bare `collection.add()` calls with no other libraries
 loaded) — a native-library stability issue, not something fixable in this codebase. Switched to
-FAISS, the doc's own named alternative. Flagged per CLAUDE.md's material-deviation clause and
-noted in README.
+FAISS, the doc's own named alternative, and noted in the README.
 
 FAISS only stores vectors, not metadata, so ticket text/ids are kept alongside in a parquet file
 with matching row order. Both are gitignored — regenerate via this script.

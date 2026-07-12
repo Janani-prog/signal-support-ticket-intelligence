@@ -14,8 +14,8 @@ sentences across the retrieved tickets. This isn't a downgrade in practice: the 
 evaluation in reports/retrieval/evaluation.md already found its output "reads as stitched-
 together fragments rather than one smooth sentence" for this task, i.e. it wasn't buying much
 real abstraction over extraction for 1.6GB of RAM. This approach uses a few KB of memory instead.
-Material deviation from TECHNICAL_ARCHITECTURE.md §2.2 (which named flan-t5-base/bart-large-cnn),
-flagged per CLAUDE.md's judgment clause; doc updated in place.
+Material deviation from TECHNICAL_ARCHITECTURE.md §2.2 (which named flan-t5-base/bart-large-cnn);
+doc updated in place.
 """
 
 import re

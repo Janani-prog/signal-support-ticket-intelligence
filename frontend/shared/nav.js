@@ -35,7 +35,7 @@ function renderNav(activeHref) {
       </div>
       <div class="mt-auto px-4 border-t border-outline-variant pt-4">
         <p class="px-4 font-data-mono text-[11px] text-on-surface-variant/70 leading-relaxed">
-          Portfolio project — public/synthetic data only.<br/>See README for evaluation results.
+          v1.0 &middot; CPU-only inference
         </p>
       </div>
     `;

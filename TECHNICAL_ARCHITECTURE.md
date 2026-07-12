@@ -1,8 +1,8 @@
 # Technical Architecture Document
 ## Signal — Support Ticket Intelligence Platform
 
-**Status:** Draft v1
-**Companion docs:** `PRD.md`, `SECURITY_AND_ACCESS.md`, `FEATURES_TICKETS.md`, `CLAUDE.md`
+**Status:** Shipped — v1.0
+**Companion docs:** `PRD.md`, `SECURITY_AND_ACCESS.md`, `FEATURES_TICKETS.md`, `MONITORING.md`
 
 ---
 
@@ -50,8 +50,8 @@ Data ingestion & cleaning (src/data/)
   Support dataset or similar (unlabeled, for clustering/retrieval).
 - **Storage:** flat files (Parquet/CSV) in `data/processed/` — no database needed for v1 given
   scale. If it becomes useful, SQLite is the free upgrade path (no separate DB server to manage).
-- Ingestion scripts must be idempotent and documented (so Claude Code or a reviewer can
-  re-run them from scratch).
+- Ingestion scripts must be idempotent and documented (so a reviewer can re-run them from
+  scratch).
 
 ### 2.2 ML Layer
 - **Classification:** scikit-learn baseline, optional transformer upgrade
@@ -84,8 +84,8 @@ Data ingestion & cleaning (src/data/)
 
   **Latency fallback (optional):** local CPU inference for generative summarization can be slow
   enough to make a live demo feel broken, especially on free-tier hosting (e.g. HF Spaces' free
-  CPU tier). If local summarization latency is too high in practice, Claude Code may swap in a
-  **free serverless inference API** for the summarization step only — e.g. Groq (very fast free
+  CPU tier). If local summarization latency is too high in practice, the summarization step can
+  swap in a **free serverless inference API** — e.g. Groq (very fast free
   tier, good for small/open models) or the Hugging Face Inference API's free tier. Requirements
   if this path is used:
   - Retrieval itself (embeddings + vector search) stays local regardless — only the final
@@ -93,10 +93,10 @@ Data ingestion & cleaning (src/data/)
     keeps external request volume low (one call per question, not per ticket).
   - The API key must be handled per `SECURITY_AND_ACCESS.md` §2 (env var / hosting secret
     manager, never hardcoded, `.env.example` updated with the new placeholder).
-  - This counts as a **material deviation** from the local-only default per `CLAUDE.md`'s "use
-    judgment" clause — it should be noted in the README and this doc updated to reflect which
-    path was actually used and why (e.g. "local flan-t5-base met latency targets, no fallback
-    needed" or "switched to Groq for summarization due to CPU latency on HF Spaces free tier").
+  - This counts as a **material deviation** from the local-only default — it should be noted in
+    the README and this doc updated to reflect which path was actually used and why (e.g. "local
+    flan-t5-base met latency targets, no fallback needed" or "switched to Groq for summarization
+    due to CPU latency on HF Spaces free tier").
 - **Experiment tracking:** MLflow, local file-based backend (no hosted MLflow server needed).
 
 ### 2.3 API Layer
@@ -114,8 +114,8 @@ Data ingestion & cleaning (src/data/)
 
 ### 2.4 Frontend Layer
 - **Source of truth for visual design:** the Stitch export provided separately
-  (`/design/stitch-export/`). Claude Code should implement against that design's structure,
-  screens, and visual language rather than inventing new UI patterns.
+  (`/design/stitch-export/`). Implementation should follow that design's structure, screens, and
+  visual language rather than inventing new UI patterns.
 - **Implementation (decided in Phase 6): plain HTML/CSS/JS, no build step** — Tailwind via CDN
   plus vanilla JS `fetch()` calls to the API. This is literally the stack the Stitch export
   itself ships as (`code.html` per screen, Tailwind CDN script tag, no framework), so it's the
@@ -164,8 +164,7 @@ Data ingestion & cleaning (src/data/)
   original plan, but as of this deployment, HF Spaces requires a **PRO subscription** to run
   Docker/Gradio SDKs on free `cpu-basic` hardware — only Static Spaces are free, and those can't
   run a FastAPI backend. That's a real $0-budget violation (`PRD.md` §8, `SECURITY_AND_ACCESS.md`),
-  so per `CLAUDE.md`'s judgment clause this wasn't worked around — the user chose Render's free
-  web-service tier instead (750 instance-hours/month, no card required for the free tier, direct
+  so it wasn't worked around — Render's free web-service tier was chosen instead (750 instance-hours/month, no card required for the free tier, direct
   Docker support — the existing `Dockerfile` needed no changes beyond respecting `$PORT`). Deploy
   via the `render.yaml` Blueprint in this repo. Tradeoff: Render's free tier spins down after
   ~15 min idle, so the first request after idle is a slow cold start (container restart + model
@@ -184,27 +183,30 @@ Data ingestion & cleaning (src/data/)
 
 ---
 
-## 6. Repo Structure
+## 6. Repo Structure (as built)
 
 ```
-support-ticket-intelligence/
-├── data/
-├── design/stitch-export/     # provided design reference
-├── models/                    # trained artifacts (gitignored if large; document how to regenerate)
-├── monitoring/reports/
-├── notebooks/
+signal-support-ticket-intelligence/
+├── .github/workflows/         # scheduled monitoring automation (see MONITORING.md §5)
+├── data/                      # gitignored — regenerate via src/data/ingest_*.py
+├── design/stitch-export/      # visual design reference
+├── docs/screenshots/          # README screenshots
+├── models/                    # trained artifacts, gitignored — regenerate via training scripts
+├── monitoring/reports/        # committed Evidently drift reports
+├── notebooks/                 # EDA
+├── reports/                   # evaluation write-ups (classification, clustering, retrieval)
 ├── src/
 │   ├── data/
 │   ├── classification/
 │   ├── clustering/
 │   ├── retrieval/
-│   └── api/
-├── frontend/
+│   ├── api/
+│   └── monitoring/
+├── frontend/                  # plain HTML/CSS/JS, served by the API in production
 ├── mlruns/                    # gitignored
-├── tests/
 ├── Dockerfile
 ├── docker-compose.yml
-├── CLAUDE.md
+├── render.yaml                # Render deployment blueprint
 ├── PRD.md
 ├── TECHNICAL_ARCHITECTURE.md
 ├── SECURITY_AND_ACCESS.md

@@ -7,9 +7,8 @@ classifier head"). Frozen embeddings were chosen because full fine-tuning of Dis
 for 77 classes is impractically slow for a $0/CPU-only portfolio deployment (the doc's own stated
 constraint), while embeddings + a linear head trains in seconds and still gives a real
 transformer-representation upgrade over TF-IDF's bag-of-words features. This choice is recorded
-here and in reports/classification/evaluation.md per CLAUDE.md's "flag material deviations"
-clause — it is a documented implementation choice within an explicitly allowed option, not a
-deviation from the doc.
+here and in reports/classification/evaluation.md — it is a documented implementation choice
+within an explicitly allowed option, not a deviation from the doc.
 
 Run: python -m src.classification.train_transformer
 """
