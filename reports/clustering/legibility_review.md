@@ -7,10 +7,10 @@ poorly-separated cluster).
 
 Manually read sample tickets from 5 clusters (out of 56 total on this run; see README's Results
 section for a note on why this count varies slightly — 56-59 — across platforms despite a fixed
-random seed, and `data/processed/clusters.json`) to assess coherence and actionability — the
-differentiator PRD.md §7 calls out ("most similar projects skip it"). Auto-labels are the top-3
-TF-IDF terms per
-cluster; reviewed against the actual sample ticket text below each one.
+random seed, and `data/processed/clusters.json`) to assess coherence and actionability — a
+differentiator most similar clustering-demo projects skip in favor of accuracy metrics alone.
+Auto-labels are the top-3 TF-IDF terms per cluster; reviewed against the actual sample ticket
+text below each one.
 
 | Cluster | Auto-label | Size | Coherence / actionability (one sentence) |
 |---|---|---|---|

@@ -2,7 +2,7 @@
 ## Signal — Support Ticket Intelligence Platform
 
 **Status:** Shipped — v1.0
-**Companion docs:** `PRD.md`, `SECURITY_AND_ACCESS.md`, `FEATURES_TICKETS.md`, `MONITORING.md`
+**Companion docs:** `SECURITY_AND_ACCESS.md`, `MONITORING.md`
 
 ---
 
@@ -163,8 +163,9 @@ Data ingestion & cleaning (src/data/)
 - **Deployed target (changed in Phase 7): Render, not Hugging Face Spaces.** HF Spaces was the
   original plan, but as of this deployment, HF Spaces requires a **PRO subscription** to run
   Docker/Gradio SDKs on free `cpu-basic` hardware — only Static Spaces are free, and those can't
-  run a FastAPI backend. That's a real $0-budget violation (`PRD.md` §8, `SECURITY_AND_ACCESS.md`),
-  so it wasn't worked around — Render's free web-service tier was chosen instead (750 instance-hours/month, no card required for the free tier, direct
+  run a FastAPI backend. That's a real $0-budget violation of this project's stated constraints
+  (see `SECURITY_AND_ACCESS.md`), so it wasn't worked around — Render's free web-service tier was
+  chosen instead (750 instance-hours/month, no card required for the free tier, direct
   Docker support — the existing `Dockerfile` needed no changes beyond respecting `$PORT`). Deploy
   via the `render.yaml` Blueprint in this repo. Tradeoff: Render's free tier spins down after
   ~15 min idle, so the first request after idle is a slow cold start (container restart + model
@@ -207,10 +208,8 @@ signal-support-ticket-intelligence/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── render.yaml                # Render deployment blueprint
-├── PRD.md
 ├── TECHNICAL_ARCHITECTURE.md
 ├── SECURITY_AND_ACCESS.md
-├── FEATURES_TICKETS.md
 ├── MONITORING.md
 ├── README.md
 └── requirements.txt

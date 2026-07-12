@@ -3,9 +3,9 @@
 
 **Status:** v1 (documented plan, partially automated — see §5 for exactly what's live vs. planned)
 
-This is a portfolio project (`PRD.md` explicitly scopes "a documented plan for [automated
-retraining], not automated execution" as in-scope for v1). This document is that plan — written
-against the numbers this project actually measured, not generic boilerplate.
+This is a portfolio project, scoped deliberately: a documented plan for automated retraining is
+in scope for v1, full automated execution of that plan is not. This document is that plan —
+written against the numbers this project actually measured, not generic boilerplate.
 
 ---
 
@@ -58,8 +58,8 @@ retraining (see §5 for what would need to change to make it automatic).
 
 ## 4. Cadence
 
-Given this is single-tenant, demo-scale, no-real-time-ingestion (`PRD.md` §6 explicitly puts
-real-time ingestion and this scale of ops out of scope for v1):
+Given this is single-tenant, demo-scale, no-real-time-ingestion (batch ticket data, not a
+live production stream):
 
 - **Drift check:** re-run `src/monitoring/generate_drift_report.py` against a fresh sample of
   logged predictions **weekly**, or immediately after any noticeable spike in `predictions.jsonl`
@@ -109,7 +109,7 @@ production SLA.
   stays a manual, monthly re-run (§4) where a human reviews the numbers before they're reported
   anywhere.
 
-**Not automated (by design, per `PRD.md`'s explicit non-goal):**
+**Not automated (deliberately out of scope for this stage):**
 - No automatic retraining or redeployment when a trigger fires.
 - No labeled-sample accuracy spot-check on live traffic (see item 2 below for what this would take).
 
@@ -129,5 +129,5 @@ production SLA.
    than the current one on `reports/classification/evaluation.md`'s test set), and a redeploy step
    (rebuild + push the Docker image, trigger a new Render deploy via their API). Individually
    feasible on $0 tooling (GitHub Actions + Render's deploy hooks), but deliberately out of scope
-   here per `PRD.md` §3's stated non-goal — this document is the plan for it, not a request to
-   auto-promote unreviewed models to production.
+   here — this document is the plan for it, not a request to auto-promote unreviewed models to
+   production.

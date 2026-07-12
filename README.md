@@ -295,10 +295,8 @@ full plan.
 
 | Doc | What's in it |
 |---|---|
-| [`PRD.md`](PRD.md) | Problem statement, users, scope, success metrics |
 | [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md) | System design, component decisions, deviations from the original plan and why |
 | [`SECURITY_AND_ACCESS.md`](SECURITY_AND_ACCESS.md) | Data handling, secrets management, threat model |
-| [`FEATURES_TICKETS.md`](FEATURES_TICKETS.md) | Phased execution plan |
 | [`MONITORING.md`](MONITORING.md) | Retraining triggers, cadence, MLOps automation |
 
 ---
