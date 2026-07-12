@@ -29,8 +29,9 @@ mlartifacts/
 # Vector store
 chroma_db/
 
-# Monitoring reports (generated artifacts; keep example reports we explicitly commit)
-monitoring/reports/*.html
+# Prediction logs are runtime data, not committed. Drift reports under monitoring/reports/ ARE
+# committed (T8.2 requires a real example report in-repo) — nothing to ignore there.
+monitoring/logs/*.jsonl
 
 # Jupyter
 .ipynb_checkpoints/

@@ -167,6 +167,18 @@ distribution, and sample tickets.
 
 _Further run instructions (training, API, frontend) added as each phase lands._
 
+### Monitoring
+
+```bash
+python -m src.monitoring.generate_drift_report
+```
+
+Two Evidently AI drift reports in `monitoring/reports/`: a held-out-split "no shift" baseline
+(0/4 features flagged — confirms the monitor doesn't cry wolf) and a genuine domain-shift example
+(Twitter corpus vs. banking77 — 4/4 features flagged). Every `/classify` and `/ask` call is
+logged to `monitoring/logs/predictions.jsonl` (timestamp, input hash, output — no raw text
+stored). Full retraining-trigger plan, cadence, and what it would take to automate: `MONITORING.md`.
+
 ---
 
 ## Project status

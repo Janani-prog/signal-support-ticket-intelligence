@@ -28,6 +28,7 @@ from src.api.schemas import (
     StatsResponse,
     TermContribution,
 )
+from src.monitoring.prediction_log import log_prediction
 
 load_dotenv()
 
@@ -71,6 +72,7 @@ def health() -> HealthResponse:
 @limiter.limit("20/minute")
 def classify(request: Request, body: ClassifyRequest) -> ClassifyResponse:
     category, confidence, top_terms = store().classify(body.text)
+    log_prediction("classify", body.text, {"category": category, "confidence": confidence})
     return ClassifyResponse(
         category=category,
         confidence=confidence,
@@ -109,6 +111,9 @@ def get_cluster(cluster_id: int) -> ClusterDetailResponse:
 @limiter.limit("10/minute")
 def ask(request: Request, body: AskRequest) -> AskResponse:
     result = store().ask_pipeline.ask(body.question, top_k=body.top_k)
+    log_prediction(
+        "ask", body.question, {"n_sources": len(result["sources"]), "answer_length": len(result["answer"])}
+    )
     return AskResponse(
         answer=result["answer"],
         sources=[AskSource(**s) for s in result["sources"]],

@@ -1,0 +1,14 @@
+{
+  "no_shift_test_split_a_vs_b": {
+    "dataset_drift": false,
+    "n_drifted_columns": 0,
+    "n_columns": 4,
+    "drift_share": 0.0
+  },
+  "domain_shift_twitter_vs_test": {
+    "dataset_drift": true,
+    "n_drifted_columns": 4,
+    "n_columns": 4,
+    "drift_share": 1.0
+  }
+}
