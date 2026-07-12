@@ -45,8 +45,20 @@ misleading approximation layer. Full reasoning, per-class metrics, confusion mat
 business-cost writeup (which error type is optimized against and why) are in
 [`reports/classification/evaluation.md`](reports/classification/evaluation.md).
 
-- **Clustering:** silhouette score + human-legibility review — Phase 3.
-- **Retrieval:** hit-rate against a hand-built test set — Phase 4.
+### Clustering (Phase 3)
+
+- **56 clusters** found across 8,000 unlabeled Twitter customer-support tickets (HDBSCAN;
+  4,321 tickets — 54% — left as noise, expected for short, topically diverse social text).
+- **Silhouette score: 0.51** (clustered points only, 10-D UMAP space).
+- **Human-legibility review** of 5 clusters: 4/5 genuinely coherent and actionable (account
+  access, flight delays, gaming platform issues, negative flying sentiment); 1/5 turned out to be
+  off-topic social chatter (McDonald's cravings) that isn't a support issue at all — a real
+  finding a legibility review catches that an accuracy metric wouldn't. Full review:
+  [`reports/clustering/legibility_review.md`](reports/clustering/legibility_review.md).
+
+### Retrieval (Phase 4)
+
+_TBD — hit-rate against a hand-built test set._
 
 ---
 
@@ -75,7 +87,9 @@ committed; regenerate from these scripts). Sources:
   [`MohammadOthman/mo-customer-support-tweets-945k`](https://huggingface.co/datasets/MohammadOthman/mo-customer-support-tweets-945k))
   — real customer-support tweets, ~945k rows. We use a fixed, seeded random sample of 8,000
   customer-initiated messages (portfolio scale, per `TECHNICAL_ARCHITECTURE.md` §5) as the
-  unlabeled corpus for clustering/retrieval (Phases 3-4).
+  unlabeled corpus for clustering/retrieval (Phases 3-4). Filtered to English-only via
+  `langdetect` — an early clustering run (Phase 3) showed non-English tickets collapsing into
+  language-identity clusters instead of topical ones, so this is filtered at ingestion.
 
 Both are cleaned via `src/data/cleaning.py`: PII-shaped tokens (emails, phone numbers, URLs,
 @handles) are redacted, whitespace is normalized, and exact duplicates are dropped — see

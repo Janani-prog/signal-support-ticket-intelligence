@@ -6,6 +6,7 @@ pandas==2.2.3
 numpy==1.26.4
 datasets==3.2.0
 python-dotenv==1.0.1
+langdetect==1.0.9
 
 # --- Classification (Phase 2) ---
 scikit-learn==1.5.2

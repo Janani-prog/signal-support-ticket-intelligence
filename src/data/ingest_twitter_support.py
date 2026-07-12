@@ -18,12 +18,21 @@ Run: python -m src.data.ingest_twitter_support
 from pathlib import Path
 
 from datasets import load_dataset
+from langdetect import DetectorFactory, detect
 
 from src.data.cleaning import clean_dataframe
 
 PROCESSED_DIR = Path("data/processed")
 SAMPLE_SIZE = 8000
 SEED = 42
+DetectorFactory.seed = SEED  # langdetect is otherwise non-deterministic
+
+
+def _is_english(text: str) -> bool:
+    try:
+        return detect(text) == "en"
+    except Exception:
+        return False
 
 
 def ingest() -> None:
@@ -36,6 +45,14 @@ def ingest() -> None:
     # Drop very short remnants (e.g. a lone "[HANDLE]" after PII stripping) that add noise
     # without signal for clustering/retrieval.
     df = df[df["ticket_text"].str.split().str.len() >= 4].reset_index(drop=True)
+
+    # English-only: this is a single-language demo corpus (per notebooks/01_eda.ipynb's caveat —
+    # mixed-language noise measurably hurt Phase 3 clustering quality, so filter at the source
+    # rather than downstream). Oversample before language-filtering so the final sample still
+    # hits SAMPLE_SIZE.
+    candidate_pool = df.sample(n=min(len(df), SAMPLE_SIZE * 2), random_state=SEED)
+    is_english = candidate_pool["ticket_text"].map(_is_english)
+    df = candidate_pool[is_english].reset_index(drop=True)
 
     n = min(SAMPLE_SIZE, len(df))
     df = df.sample(n=n, random_state=SEED).reset_index(drop=True)
