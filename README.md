@@ -3,7 +3,9 @@
 > A portfolio project demonstrating full ML-lifecycle competency: experimentation → evaluation →
 > deployment → monitoring. Built entirely with free/open-source tools, $0 budget, CPU-only.
 
-**Live demo:** _TBD (Phase 7)_
+**Live demo:** [signal-mmuf.onrender.com/dashboard.html](https://signal-mmuf.onrender.com/dashboard.html)
+(free-tier hosting — spins down after ~15min idle, first request after that is a slow cold
+start while the container restarts and models reload)
 **Screenshots:** _TBD (Phase 9)_
 
 ---
