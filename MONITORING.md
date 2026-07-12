@@ -53,7 +53,7 @@ retraining (see §5 for what would need to change to make it automatic).
 | **Drift share** (Evidently `DatasetDriftMetric`) on a rolling sample of live `/classify` inputs vs. the held-out reference | ≥ 50% of monitored features flagged drifted | Our domain-shift example hit 100%; our no-shift baseline hit 0%. 50% is a deliberately conservative middle ground — investigate before it reaches "obviously different domain" territory. |
 | **Classifier accuracy** on a periodically hand-labeled sample of live traffic | Drops below **85%** (vs. the current 89.2% baseline — see `reports/classification/evaluation.md`) | A ~4-point drop is bigger than normal sampling noise for this task and dataset size, and starts eating into the margin that justified deploying the interpretable baseline over the higher-accuracy embedding model in the first place. |
 | **Per-class recall** on the smallest/highest-risk classes (see `reports/classification/evaluation.md`'s lowest-recall-classes table) | Any of the tracked security/financial-risk classes (`lost_or_stolen_card`, `compromised_card`, etc.) drops recall by >10 points from baseline | These are exactly the classes the Phase 2 business-cost writeup argued should be protected against false negatives — a recall drop here is a targeted regression, not just aggregate noise. |
-| **Retrieval hit rate** (re-run `src/retrieval/eval_retrieval.py`'s test set periodically) | Drops below **80%** (vs. current 100%) | The 15-question test set is small, so some variance is expected as the underlying ticket corpus is refreshed — 80% still means the vast majority of hand-verified questions retrieve a relevant ticket. |
+| **Retrieval hit rate** (re-run `src/retrieval/eval_retrieval.py`'s test set periodically — manually, not by the scheduled workflow; see §5's note on why) | Drops below **80%** (vs. current 100%) | The 15-question test set is small, so some variance is expected as the underlying ticket corpus is refreshed — 80% still means the vast majority of hand-verified questions retrieve a relevant ticket. |
 | **Prediction volume anomaly** (from `monitoring/logs/predictions.jsonl`) | Volume drops to 0 for >1 hour during expected traffic, or spikes >10x baseline | Independent of model quality — this catches the pipeline being broken or (given the $0 free-tier hosting) potential abuse consuming the rate-limit budget. |
 
 ## 4. Cadence
@@ -80,20 +80,34 @@ production SLA.
 - Prediction logging (`src/monitoring/prediction_log.py`) — every `/classify` and `/ask` call is
   logged automatically, no manual step.
 - **Scheduled pipeline regression check** (`.github/workflows/monitoring.yml`, GitHub Actions,
-  free for public repos): runs weekly (Monday 06:00 UTC) and on manual dispatch. Re-runs the full
-  pipeline from scratch (ingestion → classifier training → clustering → retrieval indexing),
-  re-runs the retrieval hit-rate evaluation, regenerates both drift reports, and checks the
-  results against §3's thresholds (`src/monitoring/check_thresholds.py`). If a threshold is
-  breached, it opens a GitHub issue (labeled `monitoring`) with the details and fails the
-  workflow run (visible as a red X in the Actions tab); either way it commits refreshed report
-  artifacts back to the repo if they changed.
+  free for public repos): runs weekly (Monday 06:00 UTC) and on manual dispatch. Re-runs the
+  pipeline from scratch (ingestion → classifier training → clustering), regenerates both drift
+  reports, and checks classifier accuracy + the no-shift drift baseline against §3's thresholds
+  (`src/monitoring/check_thresholds.py`). If a threshold is breached, it opens a GitHub issue
+  (labeled `monitoring`) with the details and fails the workflow run (visible as a red X in the
+  Actions tab); either way it commits refreshed drift report artifacts back to the repo if they
+  changed.
 
-  **Scoping honesty:** this checks the pipeline re-run against fresh source data, not live
-  production traffic — `monitoring/logs/predictions.jsonl` lives on the deployed container's
-  ephemeral filesystem and isn't reachable from a GitHub Actions runner. It still catches real
-  problems (an accuracy regression from a dependency bump or code change; the no-shift drift
-  baseline breaking, which would indicate a pipeline bug), but it is a regression check, not a
-  production-traffic monitor. Closing that gap is item 1 below.
+  **Scoping honesty, including a real bug this surfaced on its first run:** this checks the
+  pipeline re-run against fresh source data, not live production traffic —
+  `monitoring/logs/predictions.jsonl` lives on the deployed container's ephemeral filesystem and
+  isn't reachable from a GitHub Actions runner. It still catches real problems (an accuracy
+  regression from a dependency bump or code change; the no-shift drift baseline breaking, which
+  would indicate a pipeline bug) — but it is a regression check, not a production-traffic
+  monitor. Closing that gap is item 1 below.
+
+  **Retrieval hit-rate evaluation was originally included in this automated check and had to be
+  removed.** On the very first real run, it reported a false "regression" (13.3% vs. the real,
+  human-verified 100%) — and the auto-commit step briefly overwrote the authoritative
+  `reports/retrieval/retrieval_hit_rate.json` with that wrong number before this was caught and
+  fixed. Root cause: `eval_retrieval.py`'s ground truth is "which cluster does this ticket
+  belong to," tied to a *specific* clustering run's cluster IDs — re-clustering from scratch each
+  week (as this workflow does) reassigns those IDs even with a fixed random seed (clustering
+  isn't bit-identical across platforms — see the README's Clustering results note), silently
+  invalidating the hardcoded ground truth. This is now excluded from the automated check and
+  documented at the top of both `check_thresholds.py` and the workflow file; retrieval evaluation
+  stays a manual, monthly re-run (§4) where a human reviews the numbers before they're reported
+  anywhere.
 
 **Not automated (by design, per `PRD.md`'s explicit non-goal):**
 - No automatic retraining or redeployment when a trigger fires.

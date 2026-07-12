@@ -236,13 +236,18 @@ logged to `monitoring/logs/predictions.jsonl` (timestamp, input hash, output —
 stored).
 
 **Automated:** [`.github/workflows/monitoring.yml`](.github/workflows/monitoring.yml) runs this
-pipeline weekly (and on manual dispatch) in GitHub Actions, checks the results against
-`MONITORING.md` §3's thresholds (`src/monitoring/check_thresholds.py`), opens a GitHub issue if
-any are breached, and commits refreshed reports back to the repo. It's a regression check against
-freshly re-run source data, not a live-production-traffic monitor — `predictions.jsonl` lives on
-the deployed container's ephemeral filesystem and isn't reachable from CI; see `MONITORING.md` §5
-for the honest scoping and what closing that gap would take. Full retraining-trigger plan and
-cadence: `MONITORING.md`.
+pipeline weekly (and on manual dispatch) in GitHub Actions, checks classifier accuracy and the
+no-shift drift baseline against `MONITORING.md` §3's thresholds
+(`src/monitoring/check_thresholds.py`), opens a GitHub issue if either is breached, and commits
+refreshed drift reports back to the repo. It's a regression check against freshly re-run source
+data, not a live-production-traffic monitor — `predictions.jsonl` lives on the deployed
+container's ephemeral filesystem and isn't reachable from CI; see `MONITORING.md` §5 for the
+honest scoping. Retrieval hit-rate evaluation was originally part of this automated check and had
+to be pulled out after its first real run: re-clustering from scratch each week reassigns cluster
+IDs (even with a fixed seed — see the Clustering note above), which silently invalidates that
+eval's cluster-ID-based ground truth and produced a false "13.3% hit rate" regression against the
+real, human-verified 100%. Caught, root-caused, and documented in `MONITORING.md` §5 rather than
+left as a flaky check. Full retraining-trigger plan and cadence: `MONITORING.md`.
 
 ---
 

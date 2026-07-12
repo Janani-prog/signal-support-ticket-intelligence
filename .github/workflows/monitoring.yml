@@ -1,14 +1,28 @@
 name: Monitoring — pipeline regression check
 
-# Runs the full data/classification/retrieval pipeline from scratch on a schedule (weekly) and
-# checks the result against MONITORING.md §3's thresholds, opening a GitHub issue if any are
-# breached. Commits refreshed monitoring artifacts back to the repo when they change.
+# Runs the classification + drift pipeline from scratch on a schedule (weekly) and checks the
+# result against MONITORING.md §3's thresholds, opening a GitHub issue if any are breached.
+# Commits refreshed drift reports back to the repo when they change.
 #
 # Scoping note (see MONITORING.md §5): this checks the pipeline re-run from source data, not live
 # production traffic — prediction logs live on the deployed container's ephemeral filesystem and
 # aren't reachable from CI. This still catches real problems: an accuracy regression from a
 # dependency bump, a code change, or an upstream dataset change; and a broken no-shift drift
 # baseline, which would indicate a pipeline bug rather than "drift" in the monitoring sense.
+#
+# Deliberately NOT re-run here: retrieval hit-rate evaluation. Found the hard way (first real
+# run of this workflow): src/retrieval/eval_retrieval.py's ground truth is "which cluster does
+# this ticket belong to," tied to a *specific* clustering run's cluster IDs. Re-clustering from
+# scratch each week (as this workflow does, deterministically-seeded but not bit-identical
+# across platforms — see README's Clustering results note) reassigns cluster IDs, so the
+# hardcoded `target_cluster` values in eval_retrieval.py's test set silently stop meaning what
+# they meant when the ground truth was written — producing a false "regression" from ground-truth
+# drift, not retrieval-quality drift. That first run alerted on exactly this (hit rate reported
+# 13.3% vs. the real, human-verified 100%) and — worse — the auto-commit step overwrote the
+# authoritative reports/retrieval/retrieval_hit_rate.json with that wrong number before this
+# comment existed. Fixed by removing retrieval from the automated check entirely; it stays a
+# manual, monthly re-run per MONITORING.md §4, where a human can sanity-check the numbers before
+# they land in a report anyone might cite.
 
 on:
   schedule:
@@ -33,17 +47,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run pipeline (ingest, train, cluster, index)
+      - name: Run pipeline (ingest, train, cluster)
         run: |
           python -m src.data.ingest_banking77
           python -m src.data.ingest_twitter_support
           python -m src.classification.train_baseline
           python -m src.clustering.cluster
-          python -m src.retrieval.build_index
-
-      - name: Re-run retrieval hit-rate evaluation
-        # depends on data/processed/clusters.json from the clustering step above for ground truth
-        run: python -m src.retrieval.eval_retrieval
 
       - name: Regenerate drift reports
         run: python -m src.monitoring.generate_drift_report
@@ -75,12 +84,14 @@ jobs:
           See \`MONITORING.md\` §3 for threshold definitions and §5 for what this check does and doesn't cover." \
             --label "monitoring"
 
-      - name: Commit refreshed monitoring artifacts if changed
+      - name: Commit refreshed drift reports if changed
+        # Only monitoring/reports/ — never reports/retrieval/, which holds the frozen,
+        # human-verified Phase 4 evaluation results the README cites (see the top-of-file note).
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add monitoring/reports/ reports/retrieval/retrieval_hit_rate.json reports/retrieval/generated_answers.json
-          git diff --staged --quiet || git commit -m "Automated monitoring: refresh drift/retrieval reports [skip ci]"
+          git add monitoring/reports/
+          git diff --staged --quiet || git commit -m "Automated monitoring: refresh drift reports [skip ci]"
           git push
 
       - name: Fail the job if a threshold was breached

@@ -8,6 +8,13 @@ ephemeral filesystem and isn't reachable from CI. Re-running from source data we
 genuine regression check (it catches an accuracy drop from a dependency update, a code change, or
 an upstream dataset change) even though it isn't literally "watching production."
 
+Deliberately NOT checked here: retrieval hit rate. Found the hard way on this workflow's first
+real run: `src/retrieval/eval_retrieval.py`'s ground truth is tied to a specific clustering run's
+cluster IDs, which shift when clustering is re-run (even with a fixed seed — see README's
+Clustering results note on cross-platform variance). Gating on it here produced a false breach
+(13.3% vs. the real, human-verified 100%) from ground-truth drift, not a real regression. Kept as
+a manual, monthly check per MONITORING.md §4 instead.
+
 Exits 0 with no output if everything is within threshold. Exits 1 and prints a breach summary
 (consumed by the GitHub Actions step that opens an issue) otherwise.
 
@@ -20,11 +27,9 @@ from pathlib import Path
 
 MODELS_DIR = Path("models")
 REPORT_DIR = Path("monitoring/reports")
-RETRIEVAL_REPORT = Path("reports/retrieval/retrieval_hit_rate.json")
 
-# Thresholds from MONITORING.md §3 — keep these two in sync if one changes.
+# Thresholds from MONITORING.md §3 — keep these in sync if one changes.
 MIN_ACCURACY = 0.85
-MIN_RETRIEVAL_HIT_RATE = 0.80
 MAX_NO_SHIFT_DRIFT_SHARE = 0.0  # two held-out splits of the same data should show zero drift
 
 
@@ -44,14 +49,6 @@ def main() -> int:
             f"{no_shift_share:.0%} drift — expected 0%. This suggests a pipeline or data problem, "
             f"not real drift (see MONITORING.md §2's methodology note)."
         )
-
-    if RETRIEVAL_REPORT.exists():
-        retrieval = json.loads(RETRIEVAL_REPORT.read_text())
-        hit_rate = retrieval["hit_rate"]
-        if hit_rate < MIN_RETRIEVAL_HIT_RATE:
-            breaches.append(
-                f"Retrieval hit rate {hit_rate:.1%} is below the {MIN_RETRIEVAL_HIT_RATE:.0%} threshold."
-            )
 
     if breaches:
         print("MONITORING THRESHOLD BREACH:\n" + "\n".join(f"- {b}" for b in breaches))
