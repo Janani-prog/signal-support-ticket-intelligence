@@ -31,9 +31,20 @@ _TBD — diagram and summary added in Phase 9. See `TECHNICAL_ARCHITECTURE.md` f
 
 ## Results
 
-_TBD — filled in as each phase completes:_
+### Classification (Phase 2)
 
-- **Classification:** per-class precision/recall, business-cost framing — Phase 2.
+| Model | Accuracy | Macro F1 |
+|---|---|---|
+| Baseline: TF-IDF + Logistic Regression (**deployed**) | 89.2% | 0.893 |
+| Upgrade: MiniLM embeddings + Logistic Regression | 93.0% | 0.930 |
+
+The embedding upgrade is more accurate, but the **TF-IDF baseline is what's deployed** — it gives
+exact, per-term interpretability (required by PRD F2 and the Stitch Classifier screen design),
+which the embedding model's dense features can't provide without a separate, potentially
+misleading approximation layer. Full reasoning, per-class metrics, confusion matrix, and the
+business-cost writeup (which error type is optimized against and why) are in
+[`reports/classification/evaluation.md`](reports/classification/evaluation.md).
+
 - **Clustering:** silhouette score + human-legibility review — Phase 3.
 - **Retrieval:** hit-rate against a hand-built test set — Phase 4.
 
