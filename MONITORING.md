@@ -79,28 +79,41 @@ production SLA.
 **Automated today:**
 - Prediction logging (`src/monitoring/prediction_log.py`) — every `/classify` and `/ask` call is
   logged automatically, no manual step.
-- Drift report generation is a one-command script (`python -m src.monitoring.generate_drift_report`)
-  — not scheduled, but not manual-effort-heavy either.
+- **Scheduled pipeline regression check** (`.github/workflows/monitoring.yml`, GitHub Actions,
+  free for public repos): runs weekly (Monday 06:00 UTC) and on manual dispatch. Re-runs the full
+  pipeline from scratch (ingestion → classifier training → clustering → retrieval indexing),
+  re-runs the retrieval hit-rate evaluation, regenerates both drift reports, and checks the
+  results against §3's thresholds (`src/monitoring/check_thresholds.py`). If a threshold is
+  breached, it opens a GitHub issue (labeled `monitoring`) with the details and fails the
+  workflow run (visible as a red X in the Actions tab); either way it commits refreshed report
+  artifacts back to the repo if they changed.
+
+  **Scoping honesty:** this checks the pipeline re-run against fresh source data, not live
+  production traffic — `monitoring/logs/predictions.jsonl` lives on the deployed container's
+  ephemeral filesystem and isn't reachable from a GitHub Actions runner. It still catches real
+  problems (an accuracy regression from a dependency bump or code change; the no-shift drift
+  baseline breaking, which would indicate a pipeline bug), but it is a regression check, not a
+  production-traffic monitor. Closing that gap is item 1 below.
 
 **Not automated (by design, per `PRD.md`'s explicit non-goal):**
-- No scheduled job runs the drift check or accuracy spot-check — someone has to run them.
 - No automatic retraining or redeployment when a trigger fires.
-- No alerting (email/Slack/etc.) — a trigger firing is only visible if someone looks.
+- No labeled-sample accuracy spot-check on live traffic (see item 2 below for what this would take).
 
-**What it would take to automate, if this moved beyond portfolio scope:**
-1. **Scheduled execution:** a GitHub Actions cron workflow (free for public repos) running
-   `generate_drift_report.py` weekly against `monitoring/logs/predictions.jsonl`, committing the
-   report back to the repo or posting a summary as an issue/comment.
-2. **Labeled sample pipeline:** a lightweight review queue for the monthly accuracy spot-check —
-   even a simple CSV export + manual labeling + a small script to compute accuracy against §3's
-   thresholds would close most of the gap without needing a full labeling platform.
-3. **Alerting:** the free tier of a service like GitHub Actions' built-in issue-creation, or a
-   webhook to a free Slack/Discord channel, when any §3 threshold is crossed — no new paid
-   infrastructure needed.
-4. **Automatic retraining + redeploy:** the highest-effort piece. Would need: a training job
-   (re-run `src/classification/train_baseline.py` against refreshed data), an evaluation gate
-   (don't promote a retrained model that scores worse than the current one on
-   `reports/classification/evaluation.md`'s test set), and a redeploy step (rebuild + push the
-   Docker image, trigger a new Render deploy via their API). All individually feasible on $0
-   tooling (GitHub Actions + Render's deploy hooks), but deliberately out of scope here per
-   `PRD.md` §3's stated non-goal — this document is the plan for it, not the implementation.
+**What it would take to automate further, if this moved beyond portfolio scope:**
+1. **Monitor actual production traffic, not just source-data reruns.** Would need
+   `monitoring/logs/predictions.jsonl` to be reachable from CI — e.g. a small authenticated
+   export endpoint on the API, or switching prediction logging to write to a free hosted store
+   (a free-tier Postgres like Supabase/Neon, or even a private GitHub Gist via API) that the
+   scheduled workflow can read from instead of (or in addition to) re-running the pipeline.
+2. **Labeled sample pipeline:** a lightweight review queue for the monthly accuracy spot-check on
+   real predictions — even a simple CSV export + manual labeling + a small script to compute
+   accuracy against §3's thresholds would close most of the gap without needing a full labeling
+   platform. Depends on item 1 (needs access to real predictions first).
+3. **Automatic retraining + redeploy:** the highest-effort piece. Would need: a training job
+   (re-run `src/classification/train_baseline.py` against refreshed data — the scheduled workflow
+   already does this part), an evaluation gate (don't promote a retrained model that scores worse
+   than the current one on `reports/classification/evaluation.md`'s test set), and a redeploy step
+   (rebuild + push the Docker image, trigger a new Render deploy via their API). Individually
+   feasible on $0 tooling (GitHub Actions + Render's deploy hooks), but deliberately out of scope
+   here per `PRD.md` §3's stated non-goal — this document is the plan for it, not a request to
+   auto-promote unreviewed models to production.

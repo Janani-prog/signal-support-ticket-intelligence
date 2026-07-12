@@ -233,7 +233,16 @@ Two Evidently AI drift reports in `monitoring/reports/`: a held-out-split "no sh
 (0/4 features flagged — confirms the monitor doesn't cry wolf) and a genuine domain-shift example
 (Twitter corpus vs. banking77 — 4/4 features flagged). Every `/classify` and `/ask` call is
 logged to `monitoring/logs/predictions.jsonl` (timestamp, input hash, output — no raw text
-stored). Full retraining-trigger plan, cadence, and what it would take to automate: `MONITORING.md`.
+stored).
+
+**Automated:** [`.github/workflows/monitoring.yml`](.github/workflows/monitoring.yml) runs this
+pipeline weekly (and on manual dispatch) in GitHub Actions, checks the results against
+`MONITORING.md` §3's thresholds (`src/monitoring/check_thresholds.py`), opens a GitHub issue if
+any are breached, and commits refreshed reports back to the repo. It's a regression check against
+freshly re-run source data, not a live-production-traffic monitor — `predictions.jsonl` lives on
+the deployed container's ephemeral filesystem and isn't reachable from CI; see `MONITORING.md` §5
+for the honest scoping and what closing that gap would take. Full retraining-trigger plan and
+cadence: `MONITORING.md`.
 
 ---
 

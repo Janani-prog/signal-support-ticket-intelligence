@@ -1,0 +1,88 @@
+name: Monitoring — pipeline regression check
+
+# Runs the full data/classification/retrieval pipeline from scratch on a schedule (weekly) and
+# checks the result against MONITORING.md §3's thresholds, opening a GitHub issue if any are
+# breached. Commits refreshed monitoring artifacts back to the repo when they change.
+#
+# Scoping note (see MONITORING.md §5): this checks the pipeline re-run from source data, not live
+# production traffic — prediction logs live on the deployed container's ephemeral filesystem and
+# aren't reachable from CI. This still catches real problems: an accuracy regression from a
+# dependency bump, a code change, or an upstream dataset change; and a broken no-shift drift
+# baseline, which would indicate a pipeline bug rather than "drift" in the monitoring sense.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Monday 06:00 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline (ingest, train, cluster, index)
+        run: |
+          python -m src.data.ingest_banking77
+          python -m src.data.ingest_twitter_support
+          python -m src.classification.train_baseline
+          python -m src.clustering.cluster
+          python -m src.retrieval.build_index
+
+      - name: Re-run retrieval hit-rate evaluation
+        # depends on data/processed/clusters.json from the clustering step above for ground truth
+        run: python -m src.retrieval.eval_retrieval
+
+      - name: Regenerate drift reports
+        run: python -m src.monitoring.generate_drift_report
+
+      - name: Check thresholds
+        id: check
+        run: |
+          set +e
+          output=$(python -m src.monitoring.check_thresholds 2>&1)
+          exit_code=$?
+          echo "$output"
+          echo "output<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$output" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+        continue-on-error: true
+
+      - name: Open an issue if a threshold was breached
+        if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "monitoring" --color FF0000 --description "Automated monitoring alerts" 2>/dev/null || true
+          gh issue create \
+            --title "Monitoring alert: pipeline regression check failed ($(date -u +%Y-%m-%d))" \
+            --body "${{ steps.check.outputs.output }}
+
+          Triggered by the scheduled pipeline regression check (\`.github/workflows/monitoring.yml\`).
+          See \`MONITORING.md\` §3 for threshold definitions and §5 for what this check does and doesn't cover." \
+            --label "monitoring"
+
+      - name: Commit refreshed monitoring artifacts if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add monitoring/reports/ reports/retrieval/retrieval_hit_rate.json reports/retrieval/generated_answers.json
+          git diff --staged --quiet || git commit -m "Automated monitoring: refresh drift/retrieval reports [skip ci]"
+          git push
+
+      - name: Fail the job if a threshold was breached
+        if: steps.check.outcome == 'failure'
+        run: exit 1
