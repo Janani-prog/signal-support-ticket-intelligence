@@ -1,9 +1,13 @@
 # Signal — Support Ticket Intelligence Platform
 
-**[Live Demo →](https://signal-mmuf.onrender.com/dashboard.html)** &nbsp;|&nbsp;
+### [**🚀 LAUNCH LIVE DEMO →**](https://signal-mmuf.onrender.com/dashboard.html)
+
+[![Live Demo](https://img.shields.io/badge/LIVE%20DEMO-signal--mmuf.onrender.com-success?style=for-the-badge&logo=render&logoColor=white)](https://signal-mmuf.onrender.com/dashboard.html)
+
 **[Screenshots ↓](#screenshots)** &nbsp;|&nbsp;
 **[Architecture ↓](#architecture)** &nbsp;|&nbsp;
-**[Results ↓](#results)**
+**[Results ↓](#results)** &nbsp;|&nbsp;
+**[Technical Challenges ↓](#technical-challenges-overcome)**
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
