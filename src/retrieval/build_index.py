@@ -21,7 +21,6 @@ Run: python -m src.retrieval.build_index
 from pathlib import Path
 
 import faiss
-import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 

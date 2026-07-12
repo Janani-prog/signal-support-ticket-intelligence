@@ -5,9 +5,11 @@ moderate-to-good separation for short, noisy social-media text; consistent with 
 review below (most reviewed clusters are coherent, one is off-topic noise rather than a
 poorly-separated cluster).
 
-Manually read sample tickets from 5 clusters (out of 56 total; see
-`data/processed/clusters.json`) to assess coherence and actionability — the differentiator PRD.md
-§7 calls out ("most similar projects skip it"). Auto-labels are the top-3 TF-IDF terms per
+Manually read sample tickets from 5 clusters (out of 56 total on this run; see README's Results
+section for a note on why this count varies slightly — 56-59 — across platforms despite a fixed
+random seed, and `data/processed/clusters.json`) to assess coherence and actionability — the
+differentiator PRD.md §7 calls out ("most similar projects skip it"). Auto-labels are the top-3
+TF-IDF terms per
 cluster; reviewed against the actual sample ticket text below each one.
 
 | Cluster | Auto-label | Size | Coherence / actionability (one sentence) |
