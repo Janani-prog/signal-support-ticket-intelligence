@@ -1,0 +1,16 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: Render dashboard -> New -> Blueprint -> connect this repo -> Apply.
+# Free tier: spins down after ~15min idle; first request after idle is a slow cold start
+# (container restart + model reload) — an honest tradeoff for $0 hosting, noted in README.
+services:
+  - type: web
+    name: signal
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ALLOWED_ORIGINS
+        value: "*"
+      - key: MLFLOW_TRACKING_URI
+        value: file:./mlruns

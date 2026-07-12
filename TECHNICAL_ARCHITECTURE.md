@@ -148,11 +148,21 @@ Data ingestion & cleaning (src/data/)
 
 ## 4. Deployment Topology
 
-- Single container (or two: `api` + `frontend`, via `docker-compose` for local dev).
-- Model artifacts (`models/`) baked into the image or downloaded at container start from a
-  public HF Hub repo you control — avoid committing large binaries to git.
-- Deployed target: Hugging Face Spaces (Docker Space) is preferred over Streamlit Community
-  Cloud if the frontend isn't Streamlit-based, since Spaces supports arbitrary Docker apps.
+- Single container (API + frontend served together — see §2.4), via `docker-compose` for local
+  dev.
+- Model artifacts (`models/`) baked into the image at build time (the Dockerfile runs the full
+  ingestion/training/clustering/indexing pipeline as a build step) rather than committed to git
+  or downloaded from an HF Hub repo — see the Dockerfile's comments for why.
+- **Deployed target (changed in Phase 7): Render, not Hugging Face Spaces.** HF Spaces was the
+  original plan, but as of this deployment, HF Spaces requires a **PRO subscription** to run
+  Docker/Gradio SDKs on free `cpu-basic` hardware — only Static Spaces are free, and those can't
+  run a FastAPI backend. That's a real $0-budget violation (`PRD.md` §8, `SECURITY_AND_ACCESS.md`),
+  so per `CLAUDE.md`'s judgment clause this wasn't worked around — the user chose Render's free
+  web-service tier instead (750 instance-hours/month, no card required for the free tier, direct
+  Docker support — the existing `Dockerfile` needed no changes beyond respecting `$PORT`). Deploy
+  via the `render.yaml` Blueprint in this repo. Tradeoff: Render's free tier spins down after
+  ~15 min idle, so the first request after idle is a slow cold start (container restart + model
+  reload) — an honest, disclosed limitation of $0 hosting, not hidden from the README.
 
 ---
 

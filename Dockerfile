@@ -1,5 +1,7 @@
 # Signal — single container serving the FastAPI backend + static frontend on one port.
 # HF Spaces Docker requirement: listen on port 7860, run as a non-root user with uid 1000.
+# Also deployable to Render (or any host that injects its own $PORT) — CMD below respects $PORT
+# if set, defaulting to 7860 for HF Spaces / plain `docker run` / docker-compose.
 
 FROM python:3.12-slim
 
@@ -45,5 +47,7 @@ RUN python -m src.data.ingest_banking77 \
     && python -c "from transformers import pipeline; pipeline('summarization', model='facebook/bart-large-cnn')"
 
 EXPOSE 7860
+ENV PORT=7860
 
-CMD ["python", "-m", "uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Shell form (not exec form) so $PORT is expanded at container start.
+CMD python -m uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT}
